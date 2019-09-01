@@ -66,3 +66,10 @@ void	flag_error(char c, char *cmd)
 	ft_putstr_fd(" [-pqr] [-s string] [files ...]\n", 2);
 	exit(-1);
 }
+void 	errors(char *str)
+{
+	ft_putstr_fd(str, 2);
+	ft_putchar_fd('\n', 2);
+	exit(-1);
+
+}

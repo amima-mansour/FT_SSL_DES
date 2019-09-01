@@ -24,7 +24,7 @@ void		read_process(char **buf, int i, char **str)
 	*buf = ft_strnew(BUF);
 }
 
-t_u64		read_stdin(char **str)
+t_u64		read_stdin(int fd, char **str)
 {
 	char	*buf;
 	char	ch;
@@ -34,7 +34,7 @@ t_u64		read_stdin(char **str)
 	*str = NULL;
 	buf = ft_strnew(BUF);
 	i = 0;
-	while (read(0, &ch, 1) > 0)
+	while (read(fd, &ch, 1) > 0)
 	{
 		if ((i % BUF) == 0 && i > 0)
 			read_process(&buf, i, str);

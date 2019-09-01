@@ -85,12 +85,16 @@ typedef struct			s_flags
 	char				q;
 	char				s;
 	char				p;
-	char				e;
+	char				encrypt;
 	char				o;
 	char				i;
-	char				d;
+	char				decrypt;
 	char				error;
 	char				*str;
+	char				*in;
+	char				*out;
+	int					fd_in;
+	int					fd_out;
 }						t_flags;
 typedef enum			e_hash_type
 {
@@ -142,7 +146,7 @@ t_hash_type				cmd_check(char *s, void (**cmd)(char*, t_flags, char*,
 void					cmd_array(t_hash_functions *hash[]);
 t_u64					file_check(char *arg, char *cmd, char **s);
 
-t_u64					read_stdin(char **str);
+t_u64					read_stdin(int fd, char **str);
 
 void					usage(void);
 void					usage_base64(void);
@@ -150,6 +154,7 @@ void					file_error(char *cmd, char *str);
 void					cmd_error(t_hash_functions *hash[], char *cmd);
 void					s_error(char *cmd);
 void					flag_error(char c, char *cmd);
+void 					errors(char *str);
 
 void					hash_sha_256(t_sha256_context *c, uint8_t **m,
 						t_u64 l);
@@ -157,4 +162,8 @@ void					hash_sha_512(t_sha512_context *c, uint8_t **m,
 						t_u64 l);
 void					treat_digest(int argc, char **argv, void (*cmd)(char*,
 						t_flags, char*, t_u64));
+
+void					base64(int argc, char **argv);
+char					*base64_encode(char *in, t_u64 len);
+char					*base64_decode(char *in, t_u64 len);
 #endif

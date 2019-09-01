@@ -33,6 +33,9 @@ SRCS		= $(addprefix $(PATH_SRC)/, \
 							prepare_hash.c\
 							hash_sha2_256.c\
 							hash_sha2_512.c\
+							b64_decode.c\
+							base64.c\
+							b64_encode.c\
 							tools.c)
 
 ################################################################################

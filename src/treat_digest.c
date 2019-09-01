@@ -18,7 +18,7 @@ static void		hash_stdin(t_flags fl, void (*c)(char*, t_flags, char*, t_u64))
 	char	*str;
 	t_u64	len;
 
-	len = read_stdin(&str);
+	len = read_stdin(0, &str);
 	fl.p > 0 ? ft_putstr_size(str, len) : 0;
 	c(str, fl, NULL, len);
 	free(str);

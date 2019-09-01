@@ -19,8 +19,16 @@ void			init_flags(t_flags *flags)
 	flags->p = 0;
 	flags->s = 0;
 	flags->q = 0;
+	flags->encrypt = 0;
+	flags->decrypt = 0;
+	flags->i = 0;
+	flags->o = 0;
 	flags->error = 0;
 	flags->str = NULL;
+	flags->in = NULL;
+	flags->out = NULL;
+	flags->fd_in = 0;
+	flags->fd_out = 1;
 }
 
 char			*flag_elements(int *start, t_flags *flags, char **argv)

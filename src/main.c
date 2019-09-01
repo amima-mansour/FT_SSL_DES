@@ -16,11 +16,15 @@
 int				main(int argc, char **argv)
 {
 	void		(*cmd)(char*, t_flags, char*, t_u64);
+	t_hash_type type;
+	char 		*str;
 
 	(argc < 2) ? usage() : 0;
-	if (cmd_check(argv[1], &cmd) == DIGEST)
+	str = argv[1];
+	type = cmd_check(str, &cmd);
+	if (type == DIGEST)
 		treat_digest(argc, argv, cmd);
 	else
-		ft_putendl("this is oteher");
+		base64(argc, argv);
 	return (0);
 }
