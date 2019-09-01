@@ -54,22 +54,22 @@ void	cmd_error(t_hash_functions *hash[], char *cmd)
 
 void	s_error(char *cmd)
 {
-	ft_putstr("ft_ssl: ");
-	ft_putstr(cmd);
-	ft_putstr(": option requires an argument -- s\nusage: ft_ssl ");
-	ft_putstr(cmd);
-	ft_putstr(" [-pqr] [-s string] [files ...]\n");
+	ft_putstr_fd("ft_ssl: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": option requires an argument -- s\nusage: ft_ssl ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(" [-pqr] [-s string] [files ...]\n", 2);
 	exit(-1);
 }
 
 void	flag_error(char c, char *cmd)
 {
-	ft_putstr("ft_ssl: ");
-	ft_putstr(cmd);
-	ft_putstr(": illegal option -- ");
-	ft_putchar(c);
-	ft_putstr("\nusage: ft_ssl ");
-	ft_putstr(cmd);
-	ft_putstr(" [-pqr] [-s string] [files ...]\n");
+	ft_putstr_fd("ft_ssl: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": illegal option -- ", 2);
+	ft_putchar_fd(c, 2);
+	ft_putstr_fd("\nusage: ft_ssl ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(" [-pqr] [-s string] [files ...]\n", 2);
 	exit(-1);
 }
