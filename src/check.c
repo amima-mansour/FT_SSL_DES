@@ -79,31 +79,26 @@ int				flags_check(char **argv, int argc, t_flags *flags, int start)
 
 void			cmd_check(char *s, void (**cmd)(char*, t_flags, char*, t_u64))
 {
-	t_hash_functions hash[NB_FUNCTIONS];
+	t_hash_functions	*hash[NB_FUNCTIONS];
+	int					i;
 
-	hash[0].name = "md5";
-	hash[1].name = "sha256";
-	hash[3].name = "sha512";
-	hash[2].name = "sha224";
-	hash[4].name = "sha384";
-	hash[5].name = "sha512256";
-	hash[6].name = "sha512224";
-	if (ft_strcmp(s, "md5") == 0)
-		*cmd = &md5;
-	else if (ft_strcmp(s, "sha256") == 0)
-		*cmd = &sha256;
-	else if (ft_strcmp(s, "sha512") == 0)
-		*cmd = &sha512;
-	else if (ft_strcmp(s, "sha224") == 0)
-		*cmd = &sha224;
-	else if (ft_strcmp(s, "sha384") == 0)
-		*cmd = &sha384;
-	else if (ft_strcmp(s, "sha512256") == 0)
-		*cmd = &sha512256;
-	else if (ft_strcmp(s, "sha512224") == 0)
-		*cmd = &sha512224;
-	else
-		cmd_error(hash, s);
+	cmd_array(hash);
+	i = -1;
+	while (++i < 7)
+		(*hash)[i].type = DIGEST;
+	i -= 1;
+	while (++i < NB_FUNCTIONS)
+		(*hash)[i].type = CIPHER;
+	i = -1;
+	while (++i < NB_FUNCTIONS)
+	{
+		if (ft_strcmp(s, (*hash)[i].name) == 0)
+		{
+			*cmd = (*hash)[i].cmd;
+			return ;
+		}
+	}
+	cmd_error(hash, s);
 }
 
 t_u64			file_check(char *arg, char *cmd, char **str)

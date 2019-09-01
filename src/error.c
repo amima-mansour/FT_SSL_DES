@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 18:49:44 by amansour          #+#    #+#             */
-/*   Updated: 2019/07/22 18:50:56 by amansour         ###   ########.fr       */
+/*   Updated: 2019/09/01 09:59:22 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,40 @@
 
 void	usage(void)
 {
-	ft_putstr("usage: ft_ssl command [command opts] [command args]\n");
+	ft_putstr_fd("usage: ft_ssl command [command opts] [command args]\n", 2);
 	exit(-1);
 }
 
 void	file_error(char *cmd, char *file)
 {
-	ft_putstr("ft_ssl: ");
-	ft_putstr(cmd);
-	ft_putstr(": ");
-	ft_putstr(file);
-	ft_putstr(": No such file or directory\n");
+	ft_putstr_fd("ft_ssl: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(file, 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
 }
 
-void	cmd_error(t_hash_functions hash[], char *cmd)
+void	cmd_error(t_hash_functions *hash[], char *cmd)
 {
 	int i;
 
-	ft_putstr("ft_ssl: Error: ");
-	ft_putstr(cmd);
-	ft_putstr(" is an invalid command.\n\n");
-	ft_putstr("Standard commands:\n");
-	ft_putstr("\nMessage Digest commands:\n");
+	ft_putstr_fd("ft_ssl: Error: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(" is an invalid command.\n\n", 2);
+	ft_putstr_fd("Standard commands:\n", 2);
+	ft_putstr_fd("\nMessage Digest commands:\n", 2);
 	i = -1;
-	while (++i < NB_FUNCTIONS)
-		ft_putendl(hash[i].name);
-	ft_putstr("\nCipher commands:\n");
+	while (++i < NB_FUNCTIONS - 1)
+	{
+		ft_putstr_fd((*hash)[i].name, 2);
+		ft_putchar_fd('\n', 2);
+	}
+	ft_putstr_fd("\nCipher commands:\n", 2);
+	while (i < NB_FUNCTIONS)
+	{
+		ft_putstr_fd((*hash)[i++].name, 2);
+		ft_putchar_fd('\n', 2);
+	}
 	exit(-1);
 }
 

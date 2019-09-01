@@ -20,7 +20,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 
-# define NB_FUNCTIONS	7
+# define NB_FUNCTIONS	8
 # define BUF			10000
 # define WORD			4
 # define WORD_64		8
@@ -88,10 +88,17 @@ typedef struct			s_flags
 	char				error;
 	char				*str;
 }						t_flags;
+typedef enum			e_hash_type
+{
+	CIPHER,
+	DIGEST
+}						t_hash_type;
 
 typedef struct			s_hash_functions
 {
 	char				*name;
+	t_hash_type			type;
+	void				(*cmd)(char*, t_flags, char*, t_u64);
 }						t_hash_functions;
 
 int						ft_strcmp(char const *str1, char const *str2);
@@ -128,13 +135,14 @@ void					init_flags(t_flags *flags);
 int						flags_check(char **argv, int argc, t_flags *fl, int s);
 void					cmd_check(char *s, void (**cmd)(char*, t_flags, char*,
 						t_u64 l));
+void					cmd_array(t_hash_functions *hash[]);
 t_u64					file_check(char *arg, char *cmd, char **s);
 
 t_u64					read_stdin(char **str);
 
 void					usage(void);
 void					file_error(char *cmd, char *str);
-void					cmd_error(t_hash_functions hash[], char *cmd);
+void					cmd_error(t_hash_functions *hash[], char *cmd);
 void					s_error(char *cmd);
 void					flag_error(char c, char *cmd);
 
