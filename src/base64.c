@@ -54,7 +54,7 @@ void    base64(int argc, char **av)
     }
     l = read_stdin(flags.fd_in, &msg);
     final_msg = flags.decrypt ? base64_decode(msg, l) : base64_encode(msg, l);
-	ft_putstr_fd(final_msg, flags.fd_out);
+    ft_putstr_fd(final_msg, flags.fd_out);
     ft_putchar_fd('\n', flags.fd_out);
     //l = flags.decrypt ? (l / 4 * 3 - (l / 4 * 3) / 64) : 
 	//((l + 2) / 3 * 4 + ((l + 2) / 3 * 4) / 64);

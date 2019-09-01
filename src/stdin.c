@@ -41,7 +41,11 @@ t_u64		read_stdin(int fd, char **str)
 		buf[i % BUF] = ch;
 		++i;
 	}
-	temp = ft_strjoin_s(*str, buf, i);
+	temp  = NULL;
+	if (*str)
+		temp = ft_strjoin_s(*str, buf, i);
+	else
+		temp = ft_strdup(buf);
 	buf ? free(buf) : 0;
 	*str ? free(*str) : 0;
 	*str = temp;
