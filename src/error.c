@@ -9,15 +9,8 @@
 /*   Updated: 2019/09/01 09:59:22 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../inc/ft_ssl.h"
 #include "../libft/libft.h"
-
-void	usage(void)
-{
-	ft_putstr_fd("usage: ft_ssl command [command opts] [command args]\n", 2);
-	exit(-1);
-}
 
 void	file_error(char *cmd, char *file)
 {

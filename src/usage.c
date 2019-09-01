@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   usage.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/22 14:23:47 by amansour          #+#    #+#             */
-/*   Updated: 2019/08/04 12:07:05 by amansour         ###   ########.fr       */
+/*   Created: 2019/09/01 10:45:42 by amansour          #+#    #+#             */
+/*   Updated: 2019/09/01 10:45:49 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../inc/ft_ssl.h"
 #include "../libft/libft.h"
-#include "ft_ssl.h"
 
-int				main(int argc, char **argv)
+void	usage(void)
 {
-	void		(*cmd)(char*, t_flags, char*, t_u64);
+	ft_putstr_fd("usage: ft_ssl command [command opts] [command args]\n", 2);
+	exit(-1);
+}
 
-	(argc < 2) ? usage() : 0;
-	if (cmd_check(argv[1], &cmd) == DIGEST)
-		treat_digest(argc, argv, cmd);
-	else
-		ft_putendl("this is oteher");
-	return (0);
+void	usage_base64(void)
+{
+	ft_putstr_fd("Usage:	base64 [-ed] [-i in_file] [-o out_file]\n\
+	-d, decode mode\n\
+	-e, encode mode (default)\n\
+	-i, input file\n\
+	-o, output file\n", 2);
+	exit(-1);
 }

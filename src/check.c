@@ -77,7 +77,7 @@ int				flags_check(char **argv, int argc, t_flags *flags, int start)
 	return (start);
 }
 
-void			cmd_check(char *s, void (**cmd)(char*, t_flags, char*, t_u64))
+t_hash_type		cmd_check(char *s, void (**cmd)(char*, t_flags, char*, t_u64))
 {
 	t_hash_functions	*hash[NB_FUNCTIONS];
 	int					i;
@@ -95,10 +95,11 @@ void			cmd_check(char *s, void (**cmd)(char*, t_flags, char*, t_u64))
 		if (ft_strcmp(s, (*hash)[i].name) == 0)
 		{
 			*cmd = (*hash)[i].cmd;
-			return ;
+			return ((*hash)[i].type);
 		}
 	}
 	cmd_error(hash, s);
+	return (DIGEST);
 }
 
 t_u64			file_check(char *arg, char *cmd, char **str)
