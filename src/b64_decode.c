@@ -13,100 +13,94 @@
 #include "ft_ssl.h"
 #include "../libft/libft.h"
 
-static	const	int		g_b64invs[] = {
-	62, -1, -1, -1, 63, 52, 53, 54, 55, 56, 57, 58,
-	59, 60, 61, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, 3, 4, 5,
-	6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-	21, 22, 23, 24, 25, -1, -1, -1, -1, -1, -1, 26, 27, 28,
-	29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42,
-	43, 44, 45, 46, 47, 48, 49, 50, 51 };
-
-static	int				b64_isvalidchar(char c)
+static	t_u64 base64_trim(char *str)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	if (c >= 'A' && c <= 'Z')
-		return (1);
-	if (c >= 'a' && c <= 'z')
-		return (1);
-	if (c == '+' || c == '/' || c == '=')
-		return (1);
-	if (c == '\n' || c == ' ' || c == '\r' || c == '\t')
-		return (1);
-	printf("c = %c\n", c);
-	return (0);
+    t_u64   start;
+    t_u64   end;
+
+    start = 0;
+    end = 0;
+    while (str[end])
+    {
+        if (str[end] != ' ' && str[end] != '\n' && str[end] != '\t' && str[end] != '\r')
+        {
+            str[start] = str[end];
+            start++;
+        }
+        end++;
+    }
+    return (start);
 }
 
-static	t_u64			size_base64_decode(char *src, t_u64 slen)
+static int		copy_over(char *c, char *e, char *s)
 {
-	t_u64 i;
-	t_u64 n;
-	t_u64 j;
+	int		i;
+	int		ret;
 
-	j = 0;
-	n = 0;
-	i = 0;
-	printf("SLEN = %llu\n", slen);
-	while (i < slen)
+	ret = 0;
+	i = -1;
+	while (++i < 4)
+		if (e[i] == '=')
+		{
+			ret++;
+			c[i] = 0;
+		}
+	s[0] = (c[0] << 2) | (c[1] >> 4);
+	s[1] = ((c[1] & 15) << 4) | (c[2] >> 2);
+	s[2] = ((c[2] & 3) << 6) | c[3];
+	return (ret);
+}
+
+static int				four_to_three(char *str, char *enc, char *key)
+{
+	int		i;
+	int		j;
+	char	c[4];
+
+	i = -1;
+	while (++i < 4)
 	{
-		i -= 1;
-		while (i < slen && src[i] == ' ')
-			++i;
-		if (i == slen)
-			break ;
-		if (((slen - i) >= 2 && src[i] == '\r' && src[i + 1] == '\n') \
-		|| src[i] == '\n' || src[i] == '\t' || src[i] == '\r' || src[i] == ' ')
-			continue;
-		// if (x != 0 || (src[i] == '=' && ++j > 2) || !b64_isvalidchar(src[i]))
-		// 	errors("Invalid character in input.");
-		if ((src[i] == '=' && ++j > 2))
-			errors("Invalid character in input.2");
-		printf("I = %llu\n", i);
-		if (!b64_isvalidchar(src[i]))
-			errors("Invalid character in input.3");
-		n++;
-		i++;
+		if (!(ft_isalpha(enc[i]) || ft_isdigit(enc[i]) || enc[i] == '+' ||
+					enc[i] == '/' || enc[i] == '='))
+			return (-1);
 	}
-	n = (6 * (n >> 3)) + ((6 * (n & 0x7) + 7) >> 3);
-	return (n - j);
-}
-
-static	void			treat_base_encode(char **out, char *in, t_u64 len)
-{
-	t_u64	i;
-	t_u64	j;
-	int		v;
-
-	i = 0;
-	j = 0;
-	while (i < len)
+	i = -1;
+	while (++i < 64)
 	{
-		if (in[i] == '\r' || in[i] == '\n' || in[i] == ' ')
-            continue;
-		v = g_b64invs[in[i] - 43];
-		v = (v << 6) | g_b64invs[in[i + 1] - 43];
-		v = in[i + 2] == '=' ? v << 6 : (v << 6) | g_b64invs[in[i + 2] - 43];
-		v = in[i + 3] == '=' ? v << 6 : (v << 6) | g_b64invs[in[i + 3] - 43];
-		(*out)[j] = (v >> 16) & 0xFF;
-		if (in[i + 2] != '=')
-			(*out)[j + 1] = (v >> 8) & 0xFF;
-		if (in[i + 3] != '=')
-			(*out)[j + 2] = v & 0xFF;
-		i += 4;
-		j += 3;
+		j = -1;
+		while (++j < 4)
+			if (enc[j] == key[i])
+				c[j] = i;
 	}
+	return (copy_over(c, enc, str));
 }
 
-char					*base64_decode(char *in, t_u64 len)
+
+char					*base64_decode(char *in, t_u64 len, t_u64 *outlen)
 {
-	t_u64	outlen;
 	char	*out;
+	t_u64	i;
+	int		ret;
 
-	printf("LEN = %llu\nVRAI LEN = %zu\n", len, ft_strlen(in));
-	outlen = size_base64_decode(in, len);
-	if (!(out = malloc(outlen)))
+	//outlen = size_base64_decode(in, len);
+	len = base64_trim(in);
+	*outlen = (len / 4) * 3;
+	if (!(out = malloc(*outlen)))
 		return (NULL);
-	treat_base_encode(&out, in, len);
-	out[outlen - 1] = '\0';
+	i = 0;
+	while (i < *outlen)
+	{
+		if ((ret = four_to_three(&(out[i]), in, BASE64_KEY)) == -1)
+		{
+			errors("Invalid character in input stream.");
+			free(out);
+			return (NULL);
+		}
+		i += 3;
+		in += 4;
+	}
+	*outlen -= ret;
+	/*treat_base_encode(&out, in, len);
+	out[outlen - 1] = '\0';*/
 	return (out);
 }

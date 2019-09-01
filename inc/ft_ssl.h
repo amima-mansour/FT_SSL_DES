@@ -26,6 +26,8 @@
 # define WORD_64		8
 # define WORD_64_BITS	64
 # define WORD_BITS		32
+# define KY64 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+# define BASE64_KEY KY64
 
 # define F(x, y, z)		(((x) & (y)) | ((~x) & (z)))
 # define G(x, y, z)		(((x) & (z)) | ((y) & (~z)))
@@ -164,6 +166,7 @@ void					treat_digest(int argc, char **argv, void (*cmd)(char*,
 						t_flags, char*, t_u64));
 
 void					base64(int argc, char **argv);
-char					*base64_encode(char *in, t_u64 len);
-char					*base64_decode(char *in, t_u64 len);
+char					*base64_encode(char *in, t_u64 len, t_u64 *outlen);
+char					*base64_decode(char *in, t_u64 len, t_u64 *outlen);
+
 #endif

@@ -63,17 +63,16 @@ static	void			treat_base_encode(char **out, char *in, t_u64 len)
 	}
 }
 
-char					*base64_encode(char *in, t_u64 len)
+char					*base64_encode(char *in, t_u64 len, t_u64 *outlen)
 {
 	char	*out;
-	t_u64	elen;
 
 	if (in == NULL || len == 0)
 		return (NULL);
-	elen = encode_base64_size(len);
-	if (!(out = malloc(elen + 1)))
+	*outlen = encode_base64_size(len);
+	if (!(out = malloc(*outlen + 1)))
 		return (NULL);
-	out[elen] = '\0';
+	out[*outlen] = '\0';
 	treat_base_encode(&out, in, len);
 	return (out);
 }

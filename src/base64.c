@@ -40,6 +40,7 @@ void    base64(int argc, char **av)
 	uint64_t	l;
     char        *msg;
     char        *final_msg;
+    t_u64       outlen;
 
     read_args(&flags, argc, av);
     if (flags.in && (flags.fd_in = open(flags.in, O_RDONLY)) == -1)
@@ -53,9 +54,10 @@ void    base64(int argc, char **av)
         return ;
     }
     l = read_stdin(flags.fd_in, &msg);
-    final_msg = flags.decrypt ? base64_decode(msg, l) : base64_encode(msg, l);
-    ft_putstr_fd(final_msg, flags.fd_out);
-    ft_putchar_fd('\n', flags.fd_out);
+    final_msg = flags.decrypt ? base64_decode(msg, l, &outlen) : base64_encode(msg, l, &outlen);
+    write(flags.fd_out, final_msg, outlen);
+    if (!flags.decrypt)
+        ft_putchar_fd('\n', flags.fd_out);
     //l = flags.decrypt ? (l / 4 * 3 - (l / 4 * 3) / 64) : 
 	//((l + 2) / 3 * 4 + ((l + 2) / 3 * 4) / 64);
     free(msg);
