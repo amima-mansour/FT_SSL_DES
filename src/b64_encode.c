@@ -13,16 +13,6 @@
 #include "ft_ssl.h"
 #include "../libft/libft.h"
 
-static	const	char	g_b64[] = {
-	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
-	'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
-	'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-	'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
-	'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
-	'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-	'w', 'x', 'y', 'z', '0', '1', '2', '3',
-	'4', '5', '6', '7', '8', '9', '+', '/'};
-
 static	t_u64			encode_base64_size(t_u64 inlen)
 {
 	t_u64	ret;
@@ -48,14 +38,14 @@ static	void			treat_base_encode(char **out, char *in, t_u64 len)
 		v = in[i];
 		v = i + 1 < len ? v << 8 | in[i + 1] : v << 8;
 		v = i + 2 < len ? v << 8 | in[i + 2] : v << 8;
-		(*out)[j] = g_b64[(v >> 18) & 0x3F];
-		(*out)[j + 1] = g_b64[(v >> 12) & 0x3F];
+		(*out)[j] = BASE64[(v >> 18) & 0x3F];
+		(*out)[j + 1] = BASE64[(v >> 12) & 0x3F];
 		if (i + 1 < len)
-			(*out)[j + 2] = g_b64[(v >> 6) & 0x3F];
+			(*out)[j + 2] = BASE64[(v >> 6) & 0x3F];
 		else
 			(*out)[j + 2] = '=';
 		if (i + 2 < len)
-			(*out)[j + 3] = g_b64[v & 0x3F];
+			(*out)[j + 3] = BASE64[v & 0x3F];
 		else
 			(*out)[j + 3] = '=';
 		i += 3;
@@ -63,16 +53,19 @@ static	void			treat_base_encode(char **out, char *in, t_u64 len)
 	}
 }
 
-char					*base64_encode(char *in, t_u64 len, t_u64 *outlen)
+void					base64_encode(char *in, t_u64 len, int fd)
 {
 	char	*out;
+	t_u64	outlen;
 
 	if (in == NULL || len == 0)
-		return (NULL);
-	*outlen = encode_base64_size(len);
-	if (!(out = malloc(*outlen + 1)))
-		return (NULL);
-	out[*outlen] = '\0';
+		return ;
+	outlen = encode_base64_size(len);
+	if (!(out = malloc(outlen + 1)))
+		return ;
+	out[outlen] = '\0';
 	treat_base_encode(&out, in, len);
-	return (out);
+	write(fd, out, outlen);
+	ft_putchar_fd('\n', fd);
+	free(out);
 }

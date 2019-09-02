@@ -6,33 +6,34 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/01 16:36:20 by amansour          #+#    #+#             */
-/*   Updated: 2019/09/01 16:43:05 by amansour         ###   ########.fr       */
+/*   Updated: 2019/09/02 09:31:46 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
 #include "../libft/libft.h"
 
-static	t_u64 base64_trim(char *str)
+static	t_u64	ft_trim(char *str)
 {
-    t_u64   start;
-    t_u64   end;
+	t_u64	start;
+	t_u64	end;
 
-    start = 0;
-    end = 0;
-    while (str[end])
-    {
-        if (str[end] != ' ' && str[end] != '\n' && str[end] != '\t' && str[end] != '\r')
-        {
-            str[start] = str[end];
-            start++;
-        }
-        end++;
-    }
-    return (start);
+	start = 0;
+	end = 0;
+	while (str[end])
+	{
+		if (str[end] != ' ' && str[end] != '\n' && str[end] != '\t' \
+				&& str[end] != '\r')
+		{
+			str[start] = str[end];
+			start++;
+		}
+		end++;
+	}
+	return (start);
 }
 
-static int		copy_over(char *c, char *e, char *s)
+static int		base_convert(char *c, char *e, char *s)
 {
 	int		i;
 	int		ret;
@@ -46,12 +47,12 @@ static int		copy_over(char *c, char *e, char *s)
 			c[i] = 0;
 		}
 	s[0] = (c[0] << 2) | (c[1] >> 4);
-	s[1] = ((c[1] & 15) << 4) | (c[2] >> 2);
-	s[2] = ((c[2] & 3) << 6) | c[3];
+	s[1] = (c[1] << 4) | (c[2] >> 2);
+	s[2] = (c[2] << 6) | c[3];
 	return (ret);
 }
 
-static int				four_to_three(char *str, char *enc, char *key)
+static int		treat_base_decode(char *str, char *enc)
 {
 	int		i;
 	int		j;
@@ -69,38 +70,36 @@ static int				four_to_three(char *str, char *enc, char *key)
 	{
 		j = -1;
 		while (++j < 4)
-			if (enc[j] == key[i])
+			if (enc[j] == BASE64[i])
 				c[j] = i;
 	}
-	return (copy_over(c, enc, str));
+	return (base_convert(c, enc, str));
 }
 
-
-char					*base64_decode(char *in, t_u64 len, t_u64 *outlen)
+void			base64_decode(char *in, t_u64 len, int fd)
 {
 	char	*out;
 	t_u64	i;
 	int		ret;
+	t_u64	outlen;
 
-	//outlen = size_base64_decode(in, len);
-	len = base64_trim(in);
-	*outlen = (len / 4) * 3;
-	if (!(out = malloc(*outlen)))
-		return (NULL);
+	len = ft_trim(in);
+	outlen = (len / 4) * 3;
+	if (!(out = malloc(outlen)))
+		return ;
 	i = 0;
-	while (i < *outlen)
+	while (i < outlen)
 	{
-		if ((ret = four_to_three(&(out[i]), in, BASE64_KEY)) == -1)
+		if ((ret = treat_base_decode(&(out[i]), in)) == -1)
 		{
 			errors("Invalid character in input stream.");
 			free(out);
-			return (NULL);
+			return ;
 		}
 		i += 3;
 		in += 4;
 	}
-	*outlen -= ret;
-	/*treat_base_encode(&out, in, len);
-	out[outlen - 1] = '\0';*/
-	return (out);
+	outlen -= ret;
+	write(fd, out, outlen);
+	free(out);
 }

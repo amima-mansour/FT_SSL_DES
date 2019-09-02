@@ -27,7 +27,7 @@
 # define WORD_64_BITS	64
 # define WORD_BITS		32
 # define KY64 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-# define BASE64_KEY KY64
+# define BASE64 KY64
 
 # define F(x, y, z)		(((x) & (y)) | ((~x) & (z)))
 # define G(x, y, z)		(((x) & (z)) | ((y) & (~z)))
@@ -156,7 +156,7 @@ void					file_error(char *cmd, char *str);
 void					cmd_error(t_hash_functions *hash[], char *cmd);
 void					s_error(char *cmd);
 void					flag_error(char c, char *cmd);
-void 					errors(char *str);
+void					errors(char *str);
 
 void					hash_sha_256(t_sha256_context *c, uint8_t **m,
 						t_u64 l);
@@ -166,7 +166,7 @@ void					treat_digest(int argc, char **argv, void (*cmd)(char*,
 						t_flags, char*, t_u64));
 
 void					base64(int argc, char **argv);
-char					*base64_encode(char *in, t_u64 len, t_u64 *outlen);
-char					*base64_decode(char *in, t_u64 len, t_u64 *outlen);
+void					base64_encode(char *in, t_u64 len, int fd);
+void					base64_decode(char *in, t_u64 len, int fd);
 
 #endif
