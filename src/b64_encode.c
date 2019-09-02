@@ -29,7 +29,7 @@ static	void			treat_base_encode(char **out, char *in, t_u64 len)
 {
 	t_u64	i;
 	t_u64	j;
-	t_u64	v;
+	t_u32	v;
 
 	i = 0;
 	j = 0;
@@ -38,14 +38,14 @@ static	void			treat_base_encode(char **out, char *in, t_u64 len)
 		v = in[i];
 		v = i + 1 < len ? v << 8 | in[i + 1] : v << 8;
 		v = i + 2 < len ? v << 8 | in[i + 2] : v << 8;
-		(*out)[j] = BASE64[(v >> 18) & 0x3F];
-		(*out)[j + 1] = BASE64[(v >> 12) & 0x3F];
+		(*out)[j] = BASE64[(v >> 18) & 63];
+		(*out)[j + 1] = BASE64[(v >> 12) & 63];
 		if (i + 1 < len)
-			(*out)[j + 2] = BASE64[(v >> 6) & 0x3F];
+			(*out)[j + 2] = BASE64[(v >> 6) & 63];
 		else
 			(*out)[j + 2] = '=';
 		if (i + 2 < len)
-			(*out)[j + 3] = BASE64[v & 0x3F];
+			(*out)[j + 3] = BASE64[v & 63];
 		else
 			(*out)[j + 3] = '=';
 		i += 3;
