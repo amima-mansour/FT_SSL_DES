@@ -30,5 +30,6 @@ void	cmd_array(t_hash_functions *hash[])
 	(*hash)[6].name = "sha512224";
 	(*hash)[6].cmd = &sha512224;
 	(*hash)[7].name = "base64";
-	(*hash)[7].cmd = NULL;
+	(*hash)[8].name = "des-ecb";
+	(*hash)[9].name = "des-cbc";
 }

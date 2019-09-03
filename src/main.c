@@ -25,6 +25,11 @@ int				main(int argc, char **argv)
 	if (type == DIGEST)
 		treat_digest(argc, argv, cmd);
 	else
-		base64(argc, argv);
+	{
+		if (ft_strcmp(argv[1], base64))
+			base64(argc, argv);
+		else
+			des(argc, argv);
+	}
 	return (0);
 }

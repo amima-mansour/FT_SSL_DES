@@ -20,7 +20,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 
-# define NB_FUNCTIONS	8
+# define NB_FUNCTIONS	10
 # define BUF			10000
 # define WORD			4
 # define WORD_64		8
@@ -98,6 +98,21 @@ typedef struct			s_flags
 	int					fd_in;
 	int					fd_out;
 }						t_flags;
+
+typedef struct			s_des_flags
+{
+	char				encrypt;
+	char				decrypt;
+	char				*in;
+	char				*out;
+	int					fd_in;
+	int					fd_out;
+	char				*passwd;
+	char				*salt;
+	char				*key;
+	char				*v;			
+}						t_des_flags;
+
 typedef enum			e_hash_type
 {
 	CIPHER,
