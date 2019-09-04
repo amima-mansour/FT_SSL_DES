@@ -17,21 +17,21 @@ static  void  check_one_flag(char *value, char *flag, t_des_flags *f)
     if (!ft_strcmp(flag, "-k"))
         f->key = value;
     if (!ft_strcmp(flag, "-p"))
-        f->pass = value;
+        f->passwd = value;
     if (!ft_strcmp(flag, "-s"))
         f->salt = value;
     if (!ft_strcmp(flag, "-v"))
         f->v = value;
 }
 
-static  void  init_flags(void)
+static  void  init_flags(t_des_flags *f)
 {
     f->out = NULL;
     f->fd_in = 0;
     f->fd_out = 1;
     f->in = NULL;
     f->key = NULL;
-    f->pass = NULL;
+    f->passwd = NULL;
     f->salt = NULL;
     f->v = NULL;
     f->encrypt = 1;
@@ -44,7 +44,7 @@ static  void  parse_flags(char **av, int ac, t_des_flags *f)
     char    *str;
 
     i = 1;
-    while (++i < argc)
+    while (++i < ac)
     {
         if (!ft_strcmp(av[i], "-o") || !ft_strcmp(av[i], "-i") ||\
         !ft_strcmp(av[i], "-k") || !ft_strcmp(av[i], "-p") ||\
@@ -62,13 +62,14 @@ static  void  parse_flags(char **av, int ac, t_des_flags *f)
             usage_base64();
     }
 }
+
 void                des(int argc, char **argv)
 {
     char        *mode;
     t_des_flags flags;
 
     check_mode(argv[0], &mode);
-    flags = init_flags();
+    init_flags(&flags);
     parse_flags(argv, argc, &flags);
 
 }

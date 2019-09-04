@@ -107,10 +107,10 @@ typedef struct			s_des_flags
 	char				*out;
 	int					fd_in;
 	int					fd_out;
-	char				*passwd;
-	char				*salt;
-	char				*key;
-	char				*v;			
+	unsigned char		*passwd;
+	unsigned char		*salt;
+	unsigned char		*key;
+	unsigned char		*iv;			
 }						t_des_flags;
 
 typedef enum			e_hash_type
@@ -134,6 +134,7 @@ char					*ft_strjoin_s(char const *s1, char const *s2, t_u64 l);
 void					ft_putstr_size(char *s, size_t size);
 
 void					md5(char *msg, t_flags flags, char *f, t_u64 l);
+t_md5_context			treat_md5(char *msg, t_u64 l);
 void					print_md5(t_md5_context c, t_flags flags, char *f);
 
 void					sha256(char *msg, t_flags flags, char *f, t_u64 l);

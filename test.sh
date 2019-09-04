@@ -38,7 +38,8 @@ BASE64_URL="base64 | tr '+/' '-_', tr -- '-_' '+/' | base64 -d,./ft_ssl base64_u
 #HASH_META="${MD5_META};${SHA256_META};${SHA224_META};${SHA384_META};${SHA512_META};${SHA512224_META};${SHA512256_META};"
 HASH_META="${MD5_META};"
 MODES_META="des-ecb;des-cbc;des-cfb;des-ofb;"
-BASE64_META="${BASE64};${BASE64_URL};"
+#BASE64_META="${BASE64};${BASE64_URL};"
+BASE64_META="${BASE64};"
 
 # CHANGEME you can change the default values of nb_keys and nb_ivs
 
@@ -82,7 +83,7 @@ done
 build_commands()
 {
 	rm -f tmp.txt
-	echo "${BASE64_META}" | while read -r -d';' BASE; do
+	echo "${BASE64_META}" | while read -r -d';' ${BASE}; do
 		echo "${BASE};" >> tmp.txt
 	done
 	echo "${MODES_META}" | while read -r -d';' MODE; do
