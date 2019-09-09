@@ -14,14 +14,14 @@
 # SOURCES       															   #
 ################################################################################
 
-SRCS	= $(addprefix $(PATH_SRCS)/, \
+SRCS	= $(addprefix src_ssl/, \
 							main.c\
 							stdin.c\
 							error.c\
 							usage.c\
 							tools.c)
 
-SRCS_HASH	= $(addprefix $(PATH_HASH)/, \
+SRCS_HASH	= $(addprefix src_hash/, \
 							check.c\
 							md5.c\
 							sha256.c\
@@ -36,20 +36,28 @@ SRCS_HASH	= $(addprefix $(PATH_HASH)/, \
 							prepare_hash.c\
 							hash_sha2_256.c\
 							hash_sha2_512.c)
+SRC_CRYPT = $(addprefix src_crypt/, \
+							b64_decode.c\
+							b64_encode.c\
+							base64.c\
+							usage)
 
 ################################################################################
 # BASIC VARIABLES															   #
 ################################################################################
 PATH_SRC = src
 C_DIR = $(addprefix $(PATH_SRC)/, \
-		src \
-		src_hash)
+		src_ssl\
+		src_hash\
+		src_crypt)
 
 C_FILES = $(addprefix $(PATH_SRC)/, \
-		  $(SRCS_HASH) \
+		  $(SRCS_HASH)\
+		  $(SRC_CRYPT)\
 		  $(SRCS))
 PATH_SRCS	= src_ssl
 PATH_HASH	= src_hash
+PATH_CRYPT = src_crypt
 PATH_INC	= inc
 O_DIR = $(C_DIR:$(PATH_SRC)/%=$(PATH_OBJ)/%)
 O_FILES = $(C_FILES:$(PATH_SRC)/%.c=$(PATH_OBJ)/%.o)
@@ -70,7 +78,7 @@ $(NAME): $(LIBRARY) $(O_FILES)
 
 $(PATH_OBJ)/%.o: $(PATH_SRC)/%.c
 	@mkdir -p $(PATH_OBJ) $(O_DIR)
-	@gcc -c $< -o $@ $(CFLAGS) $^ -I $(PATH_INC)/
+	@gcc -c -o $@ $(CFLAGS) $^ -I $(PATH_INC)/
 
 $(LIBRARY):
 	@make -C libft/

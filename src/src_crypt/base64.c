@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_ssl_crypt.h"
 #include "ft_ssl.h"
 #include "../libft/inc/libft.h"
 
-static void		read_args(t_flags *f, int argc, char **argv)
+static void		read_args(t_b64_flags *f, int argc, char **argv)
 {
 	int i;
 
@@ -37,7 +38,7 @@ static void		read_args(t_flags *f, int argc, char **argv)
 
 void			base64(int argc, char **av)
 {
-	t_flags		flags;
+	t_b64_flags		flags;
 	uint64_t	l;
 	char		*msg;
 

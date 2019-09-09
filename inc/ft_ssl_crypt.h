@@ -14,7 +14,7 @@ typedef uint8_t			t_u8;
 typedef uint32_t		t_u32;
 typedef uint64_t		t_u64;
 
-typedef struct			s__base64_flags
+typedef struct			s_b64_flags
 {
 	char				encrypt;
 	char				o;
@@ -25,7 +25,7 @@ typedef struct			s__base64_flags
 	char				*out;
 	int					fd_in;
 	int					fd_out;
-}						t_base64_flags;
+}						t_b64_flags;
 
 typedef struct			s_des_flags
 {

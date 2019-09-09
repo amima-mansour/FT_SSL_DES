@@ -26,10 +26,10 @@ int				main(int argc, char **argv)
 		treat_digest(argc, argv, cmd);
 	else
 	{
-		if (ft_strcmp(argv[1], base64))
+		if (ft_strcmp(argv[1], "base64") == 0)
 			base64(argc, argv);
-		else
-			des(argc, argv);
+		//else
+		//	des(argc, argv);
 	}
 	return (0);
 }
