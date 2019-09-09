@@ -70,7 +70,7 @@ $(NAME): $(LIBRARY) $(O_FILES)
 
 $(PATH_OBJ)/%.o: $(PATH_SRC)/%.c
 	@mkdir -p $(PATH_OBJ) $(O_DIR)
-	@gcc -c -o $@ $(CFLAGS) $^ -I $(PATH_INC)/
+	@gcc -c $< -o $@ $(CFLAGS) $^ -I $(PATH_INC)/
 
 $(LIBRARY):
 	@make -C libft/

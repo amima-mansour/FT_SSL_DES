@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/ft_ssl.h"
+#include "ft_ssl_hash.h"
 #include "../libft/inc/libft.h"
 
 static	void	init_sha512256(t_sha512_context *c)
