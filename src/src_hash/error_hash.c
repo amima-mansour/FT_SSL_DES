@@ -29,7 +29,8 @@ void	cmd_error(t_hash_functions *hash[], char *cmd)
 	}
 	ft_putstr_fd("\nCipher commands:\n", 2);
 	ft_putstr_fd("base64\n", 2);
-	ft_putstr_fd("desc\n", 2);
+	ft_putstr_fd("des-ecb\n", 2);
+	ft_putstr_fd("des-cbc\n", 2);
 	exit(-1);
 }
 

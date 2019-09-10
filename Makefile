@@ -64,7 +64,7 @@ O_DIR = $(C_DIR:$(PATH_SRC)/%=$(PATH_OBJ)/%)
 O_FILES = $(C_FILES:$(PATH_SRC)/%.c=$(PATH_OBJ)/%.o)
 PATH_OBJ	= obj
 NAME		= ft_ssl
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror  -ggdb
 LIBRARY     = libft/libft.a
 ################################################################################
 # RULES																		   #

@@ -4,7 +4,7 @@
 
 # include "ft_ssl.h"
 
-# define NB_FUNCTIONS	10
+# define NB_FUNCTIONS	7
 # define WORD			4
 # define WORD_64		8
 # define WORD_64_BITS	64
@@ -102,8 +102,7 @@ t_u64					prepare_msg_sha512(char *msg, t_u8 **new_msg, t_u64 l);
 
 void					init_flags(t_flags *flags);
 int						flags_check(char **argv, int argc, t_flags *fl, int s);
-void					cmd_check(char *s, void (**cmd)(char*, t_flags, char*,
-						t_u64 l));
+void					cmd_hash(int ac, char **av, char *s);
 t_u64					file_check(char *arg, char *cmd, char **s);
 
 void					cmd_error(t_hash_functions *hash[], char *cmd);

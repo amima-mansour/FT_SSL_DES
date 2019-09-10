@@ -15,18 +15,10 @@
 
 int				main(int argc, char **argv)
 {
-	void		(*cmd)(char*, t_flags, char*, t_u64);
-
 	(argc < 2) ? usage() : 0;
-	cmd_check(argv[1], &cmd);
-	if (cmd != NULL)
-		treat_digest(argc, argv, cmd);
+	if (ft_strcmp(argv[1], "base64") == 0)
+		base64(argc, argv);
 	else
-	{
-		if (ft_strcmp(argv[1], "base64") == 0)
-			base64(argc, argv);
-		//else
-		//	des(argc, argv);
-	}
+		cmd_hash(argc, argv, argv[1]);
 	return (0);
 }

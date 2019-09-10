@@ -32,6 +32,7 @@ static void		read_args(t_b64_flags *f, int argc, char **argv)
 	i = 1;
 	while (++i < argc)
 	{
+		ft_putendl(argv[i]);
 		if ((!(ft_strcmp(argv[i], "-i")) || !(ft_strcmp(argv[i], "-o"))) && \
 				!argv[i + 1])
 			usage_base64();
