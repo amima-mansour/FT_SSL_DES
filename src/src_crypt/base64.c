@@ -11,8 +11,18 @@
 /* ************************************************************************** */
 
 #include "ft_ssl_crypt.h"
-#include "ft_ssl.h"
-#include "../libft/inc/libft.h"
+
+static void		init_flags(t_b64_flags *flags)
+{
+	flags->fd_in = 0;
+	flags->fd_out = 1;
+	flags->out = NULL;
+	flags->in = NULL;
+	flags->o = 0;
+	flags->i = 0;
+	flags->decrypt = 0;
+	flags->encrypt = 0;
+}
 
 static void		read_args(t_b64_flags *f, int argc, char **argv)
 {
@@ -54,7 +64,7 @@ void			base64(int argc, char **av)
 		file_error("base64", flags.in);
 		return ;
 	}
-	l = read_stdin(flags.fd_in, &msg);
+	l = read_function(flags.fd_in, &msg);
 	flags.decrypt ? base64_decode(msg, l, flags.fd_out) : \
 		base64_encode(msg, l, flags.fd_out);
 	free(msg);

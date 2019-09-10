@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_ssl_hash.h"
-#include "../libft/inc/libft.h"
 
 static const t_u64 g_k[80] = {
 	0x428A2F98D728AE22, 0x7137449123EF65CD, 0xB5C0FBCFEC4D3B2F,

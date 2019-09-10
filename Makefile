@@ -16,13 +16,15 @@
 
 SRCS	= $(addprefix src_ssl/, \
 							main.c\
-							stdin.c\
+							read.c\
 							error.c\
 							usage.c\
 							tools.c)
 
 SRCS_HASH	= $(addprefix src_hash/, \
 							check.c\
+							error_hash.c\
+							cmd.c\
 							md5.c\
 							sha256.c\
 							sha224.c\
@@ -32,7 +34,6 @@ SRCS_HASH	= $(addprefix src_hash/, \
 							sha512224.c\
 							print_hash.c\
 							treat_digest.c\
-							cmd_array.c\
 							prepare_hash.c\
 							hash_sha2_256.c\
 							hash_sha2_512.c)
@@ -40,7 +41,7 @@ SRC_CRYPT = $(addprefix src_crypt/, \
 							b64_decode.c\
 							b64_encode.c\
 							base64.c\
-							usage)
+							usage_crypt.c)
 
 ################################################################################
 # BASIC VARIABLES															   #

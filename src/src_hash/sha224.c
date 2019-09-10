@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_ssl_hash.h"
-#include "../libft/inc/libft.h"
 
 static	void	init_sha224(t_sha256_context *context)
 {

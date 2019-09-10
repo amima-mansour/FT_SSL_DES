@@ -11,9 +11,8 @@
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
-#include "../libft/inc/libft.h"
 
-void		read_process(char **buf, int i, char **str)
+static void		read_process(char **buf, int i, char **str)
 {
 	char *temp;
 
@@ -24,7 +23,7 @@ void		read_process(char **buf, int i, char **str)
 	*buf = ft_strnew(BUF);
 }
 
-t_u64		read_stdin(int fd, char **str)
+t_u64		read_function(int fd, char **str)
 {
 	char	*buf;
 	char	ch;

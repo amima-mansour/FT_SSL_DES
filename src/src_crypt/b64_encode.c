@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_ssl_crypt.h"
-#include "../libft/inc/libft.h"
 
 static	t_u64			encode_base64_size(t_u64 inlen)
 {

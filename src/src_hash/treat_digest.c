@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/inc/libft.h"
 #include "ft_ssl_hash.h"
 
 static void		hash_stdin(t_flags fl, void (*c)(char*, t_flags, char*, t_u64))
@@ -18,7 +17,7 @@ static void		hash_stdin(t_flags fl, void (*c)(char*, t_flags, char*, t_u64))
 	char	*str;
 	t_u64	len;
 
-	len = read_stdin(0, &str);
+	len = read_function(0, &str);
 	fl.p > 0 ? ft_putstr_size(str, len) : 0;
 	c(str, fl, NULL, len);
 	free(str);

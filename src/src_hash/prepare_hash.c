@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_ssl_hash.h"
-#include "../libft/inc/libft.h"
 
 t_u64				prepare_msg_sha512(char *msg, t_u8 **new_msg, t_u64 l)
 {

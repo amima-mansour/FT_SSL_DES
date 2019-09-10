@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/ft_ssl.h"
-#include "../libft/inc/libft.h"
+#include "ft_ssl.h"
 
 void	usage(void)
 {

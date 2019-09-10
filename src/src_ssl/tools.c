@@ -12,23 +12,23 @@
 
 #include "ft_ssl.h"
 
-int		ft_strcmp(char const *str1, char const *str2)
-{
-	unsigned char	*s2;
-	unsigned char	*s1;
-	size_t			i;
+// int		ft_strcmp(char const *str1, char const *str2)
+// {
+// 	unsigned char	*s2;
+// 	unsigned char	*s1;
+// 	size_t			i;
 
-	i = 0;
-	s1 = (unsigned char*)str1;
-	s2 = (unsigned char*)str2;
-	while (s1[i] && s2[i])
-	{
-		if (s1[i] != s2[i])
-			return (s1[i] - s2[i]);
-		i++;
-	}
-	return (s1[i] - s2[i]);
-}
+// 	i = 0;
+// 	s1 = (unsigned char*)str1;
+// 	s2 = (unsigned char*)str2;
+// 	while (s1[i] && s2[i])
+// 	{
+// 		if (s1[i] != s2[i])
+// 			return (s1[i] - s2[i]);
+// 		i++;
+// 	}
+// 	return (s1[i] - s2[i]);
+// }
 
 void	*ft_memcpy_64(void *dest, const void *src, t_u64 len)
 {

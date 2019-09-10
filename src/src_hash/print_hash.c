@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_ssl_hash.h"
-#include "../libft/inc/libft.h"
 
 void	convert_to_hex(unsigned char nb, char *s)
 {

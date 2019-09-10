@@ -1,12 +1,7 @@
 #ifndef FT_SSL_CRYPT_H
 # define FT_SSL_CRYPT_H
 
-# include <stdlib.h>
-# include <string.h>
-# include <stdint.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <fcntl.h>
+# include "ft_ssl.h"
 
 # define KY64 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 # define BASE64 KY64
@@ -20,7 +15,6 @@ typedef struct			s_b64_flags
 	char				o;
 	char				i;
 	char				decrypt;
-	char				error;
 	char				*in;
 	char				*out;
 	int					fd_in;

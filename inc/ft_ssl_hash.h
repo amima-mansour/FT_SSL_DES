@@ -3,6 +3,7 @@
 # define FT_SSL_HASH_H
 
 # include "ft_ssl.h"
+
 # define NB_FUNCTIONS	10
 # define WORD			4
 # define WORD_64		8
@@ -73,12 +74,7 @@ typedef struct			s_hash_functions
 	void				(*cmd)(char*, t_flags, char*, t_u64);
 }						t_hash_functions;
 
-int						ft_strcmp(char const *str1, char const *str2);
-void					*ft_memcpy_64(void *dest, const void *src, t_u64 len);
-void					*ft_calloc(t_u64 nmemb, size_t size);
 void					convert_to_hex(unsigned char nb, char *s);
-char					*ft_strjoin_s(char const *s1, char const *s2, t_u64 l);
-void					ft_putstr_size(char *s, size_t size);
 
 void					md5(char *msg, t_flags flags, char *f, t_u64 l);
 t_md5_context			treat_md5(char *msg, t_u64 l);
@@ -108,7 +104,6 @@ void					init_flags(t_flags *flags);
 int						flags_check(char **argv, int argc, t_flags *fl, int s);
 void					cmd_check(char *s, void (**cmd)(char*, t_flags, char*,
 						t_u64 l));
-void					cmd_array(t_hash_functions *hash[]);
 t_u64					file_check(char *arg, char *cmd, char **s);
 
 void					cmd_error(t_hash_functions *hash[], char *cmd);

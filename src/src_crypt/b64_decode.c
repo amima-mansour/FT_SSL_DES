@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_ssl_crypt.h"
-#include "../libft/inc/libft.h"
 
 static	t_u64	ft_trim(char *str)
 {

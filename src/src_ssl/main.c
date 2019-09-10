@@ -10,18 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/inc/libft.h"
-#include "ft_ssl_crypt.h"
 #include "ft_ssl_hash.h"
+#include "ft_ssl_crypt.h"
 
 int				main(int argc, char **argv)
 {
 	void		(*cmd)(char*, t_flags, char*, t_u64);
-	char 		*str;
 
 	(argc < 2) ? usage() : 0;
-	str = argv[1];
-	cmd_check(str, &cmd);
+	cmd_check(argv[1], &cmd);
 	if (cmd != NULL)
 		treat_digest(argc, argv, cmd);
 	else

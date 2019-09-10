@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_ssl_hash.h"
-#include "../libft/inc/libft.h"
 
 void			init_flags(t_flags *flags)
 {
@@ -77,26 +76,8 @@ int				flags_check(char **argv, int argc, t_flags *flags, int start)
 	return (start);
 }
 
-void		cmd_check(char *s, void (**cmd)(char*, t_flags, char*, t_u64))
-{
-	t_hash_functions	*hash[NB_FUNCTIONS];
-	int					i;
-
-	cmd_array(hash);
-	i = -1;
-	*cmd = NULL;
-	while (++i < NB_FUNCTIONS)
-	{
-		if (ft_strcmp(s, (*hash)[i].name) == 0)
-			*cmd = (*hash)[i].cmd;
-	}
-	if (*cmd == NULL && ft_strcmp(s, "base64") && ft_strcmp(s, "des"))
-		cmd_error(hash, s);
-}
-
 t_u64			file_check(char *arg, char *cmd, char **str)
 {
-	char	ch;
 	int		fd;
 	t_u64	i;
 
@@ -107,14 +88,7 @@ t_u64			file_check(char *arg, char *cmd, char **str)
 		file_error(cmd, arg);
 		return (0);
 	}
-	while (read(fd, &ch, 1) > 0)
-		i++;
+	i = read_function(fd, str);
 	close(fd);
-	(*str) = (char*)malloc(sizeof(char) * (i + 1));
-	if ((fd = open(arg, O_RDONLY)) > 0)
-		i = 0;
-	while (read(fd, &ch, 1) > 0)
-		(*str)[i++] = ch;
-	(*str)[i] = '\0';
 	return (i);
 }

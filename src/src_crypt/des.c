@@ -1,4 +1,4 @@
-#include "../libft/inc/libft.h"
+
 #include "ft_ssl_crypt.h"
 
 static void check_mode(char *str, char **mode)
