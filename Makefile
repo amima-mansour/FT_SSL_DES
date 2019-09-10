@@ -41,6 +41,9 @@ SRC_CRYPT = $(addprefix src_crypt/, \
 							b64_decode.c\
 							b64_encode.c\
 							base64.c\
+							des.c\
+							salt.c\
+							convert.c\
 							usage_crypt.c)
 
 ################################################################################

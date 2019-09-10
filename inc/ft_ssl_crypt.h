@@ -5,6 +5,7 @@
 
 # define KY64 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 # define BASE64 KY64
+# define BASE16			"0123456789ABCDEF"
 typedef uint8_t			t_u8;
 typedef uint32_t		t_u32;
 typedef uint64_t		t_u64;
@@ -29,14 +30,19 @@ typedef struct			s_des_flags
 	char				*out;
 	int					fd_in;
 	int					fd_out;
-	unsigned char		*passwd;
-	unsigned char		*salt;
-	unsigned char		*key;
-	unsigned char		*iv;			
+	char				*passwd;
+	char				*salt;
+	char				*key;
+	char				*iv;
+	char				*tmp;		
 }						t_des_flags;
+
 void					base64(int argc, char **argv);
 void					base64_encode(char *in, t_u64 len, int fd);
 void					base64_decode(char *in, t_u64 len, int fd);
 void					usage_base64(void);
-
+void					des(int argc, char **argv);
+void					ft_generate_keys(t_des_flags *flags);
+char					*convert_2_char(char *str);
+char					*ft_strjoin_16(char const *s1, char const *s2);
 #endif

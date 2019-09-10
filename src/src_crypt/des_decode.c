@@ -10,26 +10,6 @@ static char *extract_salt(t_des_flags *f, unsigned char **ciphertext, uint32_t *
     f->salt = salt;
 }
 
-static void PBDKF2(t_des_flags *f)
-{
-    char            *concat;
-    t_u64           l;
-    t_md5_context	c;
-
-    l = 8 + ft_strlen(f->passwd) + 1;
-    if (!(concat == (unsigned char *)malloc(l)) || !(f->key == \
-        (unsigned char *)malloc(17)) || !(f->iv == (unsigned char *)malloc(17)))
-        return ;
-    concat = ft_strcpy(concat, f->passwd);
-    concat = ft_concat(concat, f->salt);
-    c = treat_md5(concat, l);
-    free(concat);
-    concat = str_msg_md5(c);
-    f->key = ft_strncpy(f->key, concat, 16);
-    f->iv = ft_strncpy(f->key, concat + 16, 16);
-    free(concat);
-}
-
 unsigned char    *decrypt(unsigned char *ciphertext, int ciphertext_len, t_des_flags f)
 {
     unsigned char   *plaintext;

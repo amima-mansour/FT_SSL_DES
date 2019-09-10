@@ -18,6 +18,8 @@ int				main(int argc, char **argv)
 	(argc < 2) ? usage() : 0;
 	if (ft_strcmp(argv[1], "base64") == 0)
 		base64(argc, argv);
+	if (ft_strcmp(argv[1], "des-ecb") == 0)
+		des(argc, argv);
 	else
 		cmd_hash(argc, argv, argv[1]);
 	return (0);
