@@ -49,5 +49,16 @@ char					*ft_strjoin_16(char const *s1, char const *s2);
 int     				hex_expr(char *hex);
 char 					*convert_2_hex(char *str);
 char					*hex_2_bin(char *s);
+char					*bin_2_decimal(char *s);
+char					*algo_des(char *pt, char *key);
+/*
+**	tools function
+**/
+char					*xor_function(char *a, char *b);
+char					*permute(char *key, int* arr, int n);
+char					*shift_left(char *k, int shifts);
+int						split(char *str, char **left, char **right, int size);
 
+char					*round_key_function(char **leftkey, char **rightkey, int shift);
+int						keygen(char **key);
 #endif

@@ -67,6 +67,8 @@ static int pbkdf2(t_des_flags *f)
 
 int         ft_generate_iv_keys(t_des_flags *f)
 {
+    if (f->key)
+        return (1);
     if (!check_salt(f))
         return (0);
     f->tmp = ft_strjoin("Salted__", f->salt);

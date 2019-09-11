@@ -44,6 +44,9 @@ SRC_CRYPT = $(addprefix src_crypt/, \
 							des.c\
 							salt.c\
 							convert.c\
+							tools.c\
+							algo_des.c\
+							keygen.c\
 							usage_crypt.c)
 
 ################################################################################

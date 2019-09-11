@@ -114,7 +114,7 @@ int     hex_expr(char *hex)
 char *hex_2_bin(char *s)
 { 
     char    *str;
-    int     i;
+    size_t  i;
     int     j;
     int     index;
 
@@ -122,17 +122,53 @@ char *hex_2_bin(char *s)
         return (NULL); 
     i = -1;
     j = 0;
-    while (++i < ft_strlen(s))
+    while (s[++i])
     {
         if (s[i] >= '0' && s[i] <= '9')
-            index = i - '0';
+            index = s[i] - '0';
         else if (s[i] >= 'a' && s[i] <= 'f')
-            index = i - 'a' + 10;
+            index = s[i] - 'a' + 10;
         else
-            index = i - 'A' + 10;
-        ft_memcpy(s + j, g_mp[index], 4);
+            index = s[i] - 'A' + 10;
+        ft_memcpy(str + j, g_mp[index], 4);
         j += 4;
     }
     str[ft_strlen(s) * 4] = '\0';
     return (str); 
-} 
+}
+
+char *bin_2_decimal(char *s)
+{
+    char    *str;
+    int     j;
+    size_t  i;
+    int     nbr;
+    int     k;
+
+    if (!(str = (char*)malloc(ft_strlen(s) / 8 + 1)))
+        return (NULL);
+    i = -1;
+    j = 0;
+    nbr = 0;
+    k = 0;
+    while(s[++i])
+    {
+        nbr = nbr << 1;
+        if (s[i] == '1')
+        {
+            ft_printf("NBBBBB Avant = %d\n", nbr);
+            nbr |= 1;
+            ft_printf("NBBBBB Apres = %d\n", nbr);
+        }
+        if (++j == 8)
+        {
+            j = 0;
+            str[k] = nbr;
+            ft_printf("NBR = %d\n", nbr);
+            nbr = 0;
+            k++;
+        }
+    }
+    str[k] = '\0';
+    return (str);
+}

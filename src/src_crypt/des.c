@@ -115,4 +115,5 @@ void		des(int argc, char **argv)
 	}
 	ft_generate_iv_keys(&flags);
 	print_flags(&flags);
+	ft_printf("%s\n", algo_des(ft_strdup("AMINAMAN"), flags.key));
 }

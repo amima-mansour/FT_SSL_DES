@@ -1,38 +1,28 @@
 #include "ft_ssl_crypt.h"
+# include "crypt.h"
 
-static int g_keyp[56] =  
-{   57, 49, 41, 33, 25, 17, 9, 
-    1, 58, 50, 42, 34, 26, 18, 
-    10, 2, 59, 51, 43, 35, 27, 
-    19, 11, 3, 60, 52, 44, 36,           
-    63, 55, 47, 39, 31, 23, 15, 
-    7, 62, 54, 46, 38, 30, 22, 
-    14, 6, 61, 53, 45, 37, 29, 
-    21, 13, 5, 28, 20, 12, 4 
-};
-
-static int key_comp[48] = 
-{
-    14, 17, 11, 24, 1, 5, 
-    3, 28, 15, 6, 21, 10, 
-    23, 19, 12, 4, 26, 8, 
-    16, 7, 27, 20, 13, 2, 
-    41, 52, 31, 37, 47, 55, 
-    30, 40, 51, 45, 33, 48, 
-    44, 49, 39, 56, 34, 53, 
-    46, 42, 50, 36, 29, 32 
-};
-
-int keygen(char *key)
+int keygen(char **key)
 {
     char *binkey;
-    char *left;
-    char *right;
 
-    if (!(binkey = hex_2_bin(key)))
+    if (!(binkey = hex_2_bin(*key)))
         return (0);
-    free(key);
-    key = permute(binkey, g_keyp, 56);
-    free(binkey);
+    free(*key);
+    *key = permute(binkey, g_keyp, 56);
     return (1);
+}
+
+char *round_key_function(char **leftkey, char **rightkey, int shift)
+{
+    char    *concat;
+    char    *round_key;
+
+    //Shifting 
+    *leftkey = shift_left(*leftkey, shift); 
+    *rightkey = shift_left(*rightkey, shift); 
+    //Combining
+    concat = ft_strjoin(*leftkey, *rightkey);
+    //Key Compression
+    round_key = permute(concat, g_key_comp, 48);
+    return (round_key);
 }
