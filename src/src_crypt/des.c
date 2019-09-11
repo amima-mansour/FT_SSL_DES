@@ -28,13 +28,13 @@ static  void	check_one_flag(char *value, char *flag, t_des_flags *f)
 	if (!ft_strcmp(flag, "-i"))
 		f->in = value;
 	if (!ft_strcmp(flag, "-k"))
-		f->key = value;
+		f->key = ft_strdup(value);
 	if (!ft_strcmp(flag, "-p"))
-		f->passwd = value;
+		f->passwd = ft_strdup(value);
 	if (!ft_strcmp(flag, "-s"))
-		f->salt = value;
+		f->salt = ft_strdup(value);
 	if (!ft_strcmp(flag, "-v"))
-		f->iv = value;
+		f->iv = ft_strdup(value);
 }
 
 static  void	init_flags(t_des_flags *f)
@@ -113,6 +113,6 @@ void		des(int argc, char **argv)
 			exit(-1);
 		}
 	}
-	ft_generate_keys(&flags);
+	ft_generate_iv_keys(&flags);
 	print_flags(&flags);
 }

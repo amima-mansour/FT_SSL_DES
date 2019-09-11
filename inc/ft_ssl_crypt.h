@@ -2,6 +2,7 @@
 # define FT_SSL_CRYPT_H
 
 # include "ft_ssl.h"
+# include <sys/random.h>
 
 # define KY64 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 # define BASE64 KY64
@@ -42,7 +43,11 @@ void					base64_encode(char *in, t_u64 len, int fd);
 void					base64_decode(char *in, t_u64 len, int fd);
 void					usage_base64(void);
 void					des(int argc, char **argv);
-void					ft_generate_keys(t_des_flags *flags);
-char					*convert_2_char(char *str);
+int         			ft_generate_iv_keys(t_des_flags *f);
+char					*convert_2_char(char *str, int size);
 char					*ft_strjoin_16(char const *s1, char const *s2);
+int     				hex_expr(char *hex);
+char 					*convert_2_hex(char *str);
+char					*hex_2_bin(char *s);
+
 #endif

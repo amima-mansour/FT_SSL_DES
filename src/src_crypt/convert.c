@@ -1,5 +1,13 @@
 #include "ft_ssl_crypt.h"
 
+static char * g_mp[16] =
+{
+    "0000", "0001", "0010", "0011", 
+    "0100", "0101", "0110", "0111", 
+    "1000", "1001", "1010", "1011",
+    "1100", "1101", "1110", "1111"
+};
+
 char *convert_2_hex(char *str)
 {
     int     i;
@@ -23,29 +31,31 @@ char *convert_2_hex(char *str)
 static int convert_a_hex(char c)
 {
     if (c >= '0' && c <= '9') 
-        return (c - 48);
-    return (c - 55);
+        return (c - '0');
+    if (c >= 'a' && c <= 'f')
+        return (c - 'a' + 10);
+    return (c - 'A' + 10);
 } 
 
-char *convert_2_char(char *str)
+char *convert_2_char(char *str, int size)
 {
-    size_t  i;
-    size_t  j;
-    char    *s;
-    int     nbr;
+    int  i;
+    int  j;
+    char *s;
+    int  nbr;
 
-    if (!(s = (char*)malloc(ft_strlen(str) / 2 + 1)))
+    if (!(s = (char*)malloc(size + 1)))
         return (NULL);
     i = -1;
     j = 0;
-    while (++i <= ft_strlen(str))
+    while (++i <= size * 2)
     {
         nbr = convert_a_hex(str[i]);
         nbr = nbr * 16 + convert_a_hex(str[++i]); 
         s[j] = nbr;
-        j += 1;
+        j++;
     }
-    s[ft_strlen(str) / 2] = '\0';
+    s[size] = '\0';
     return (s);
 }
 
@@ -85,3 +95,44 @@ char	*ft_strjoin_16(char const *s1, char const *s2)
 	}
 	return (str);
 }
+
+int     hex_expr(char *hex)
+{
+    int i;
+
+    i = -1;
+    while (hex[++i])
+    {
+        if (!((hex[i] >= '0' && hex[i] <= '9') \
+        || (hex[i] >= 'A' && hex[i] <= 'F') \
+        || (hex[i] >= 'a' && hex[i] <= 'f')))
+            return (0);
+    }
+    return (1);
+}
+
+char *hex_2_bin(char *s)
+{ 
+    char    *str;
+    int     i;
+    int     j;
+    int     index;
+
+    if (!(str = (char*)malloc(ft_strlen(s) * 4 + 1)))
+        return (NULL); 
+    i = -1;
+    j = 0;
+    while (++i < ft_strlen(s))
+    {
+        if (s[i] >= '0' && s[i] <= '9')
+            index = i - '0';
+        else if (s[i] >= 'a' && s[i] <= 'f')
+            index = i - 'a' + 10;
+        else
+            index = i - 'A' + 10;
+        ft_memcpy(s + j, g_mp[index], 4);
+        j += 4;
+    }
+    str[ft_strlen(s) * 4] = '\0';
+    return (str); 
+} 

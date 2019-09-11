@@ -1,48 +1,74 @@
 #include "ft_ssl_crypt.h"
-#include "ft_ssl_hash.h" 
+#include "ft_ssl_hash.h"
 
-char	*getsalt(void)
+static int check_salt(t_des_flags *f)
 {
-	FILE	*f;
-    char    *salt;
-
-	if (!(salt = (char *)malloc(9)))
-        exit(-1);
-    if ((f = fopen("/dev/urandom","r")) == NULL) {
-        ft_putstr_fd("probleme fopen\n", 2);
-        exit(1);
+    char *tmp;
+    
+    if (!f->salt)
+    {
+        if (!(f->salt = (char *)malloc(9)))
+            return (0);
+        if  (getentropy(f->salt, 8) == -1)
+        {
+            free(f->salt);
+            return (0);
+        }
+        f->salt[8] = '\0';
     }
-    fread(salt, sizeof(salt), 8, f);
-    salt[8] = '\0';
-	fclose(f);
-	return (salt);
-}
+    else
+    {
+        if (ft_strlen(f->salt) > 16 || !hex_expr(f->salt))
+        {
+            ft_putstr_fd("Problem with salt expression!", 2);
+            return (0);
+        }
+        if (ft_strlen(f->salt) < 16)
+        {
+            while (ft_strlen(f->salt) < 16)
+            {
+                tmp = ft_strjoin(f->salt, "0");
+                free(f->salt);
+                f->salt = tmp; 
+            }
+        }
+        f->salt = convert_2_char(f->salt, 8);
+    }
+    return (1);
 
-static void PBDKF2(t_des_flags *f)
+}  
+
+static int pbkdf2(t_des_flags *f)
 {
-    char            *concat;
+    char            *res;
     t_md5_context	c;
 
-    if (!(concat = ft_strjoin_16(f->passwd, f->salt)) || \
-        !(f->key = malloc(17)) || !(f->iv = malloc(17)))
-        return ;
-    c = treat_md5(concat, ft_strlen(f->salt) + ft_strlen(f->passwd));
-    free(concat);
-    concat = str_msg_md5(c);
+    if (!(res = ft_strjoin(f->passwd, f->salt)))
+        return (0);
+    c = treat_md5(res, ft_strlen(res));
+    free(res);
+    res = str_msg_md5(c);
+    if (!(f->key = (char*)malloc(17)))
+        return (0);
+    if (!(f->iv = (char*)malloc(17)))
+    {
+        free(f->key);
+        return (0);
+    }   
+    ft_memcpy(f->key, res, 16);
+    ft_memcpy(f->iv, res + 16, 16);
     f->key[16] = '\0';
     f->iv[16] = '\0';
-    f->key = ft_strncpy(f->key, concat, 16);
-    f->iv = ft_strncpy(f->iv, concat + 16, 16);
-    
-    free(concat);
+    free(res);
+    if (!f->key || !f->iv)
+        return (0);
+    return (1);
 }
 
-void    ft_generate_keys(t_des_flags *flags)
+int         ft_generate_iv_keys(t_des_flags *f)
 {
-
-    if (!flags->salt)
-        flags->salt = getsalt();
-    flags->salt = convert_2_char(flags->salt);
-    flags->tmp = ft_strjoin("Salted__", flags->salt);
-    PBDKF2(flags);
+    if (!check_salt(f))
+        return (0);
+    f->tmp = ft_strjoin("Salted__", f->salt);
+    return (pbkdf2(f));
 }
