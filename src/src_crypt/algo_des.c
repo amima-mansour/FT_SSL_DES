@@ -4,8 +4,9 @@
 
 static int init_block(char *pt, t_block *block)
 {
-    //Initial Permutation 
+    //Initial Permutation
     pt = permute(pt, g_initial_perm, 64);
+    //ft_printf("after initial permutation = %s\n", pt);
     return (split(pt, &(block->left), &(block->right), 32));
 }
 
@@ -34,7 +35,7 @@ static int     s_boxes(char *x, char **op)
     j = 0;
     while(++i < 8)
     {
-        arr.row = 2 * (int)(x[i * 6]-'0') + (int)(x[i * 6 + 5] - '0');
+        arr.row = 2 * (int)(x[i * 6] - '0') + (int)(x[i * 6 + 5] - '0');
         arr.col = 8 * (int)(x[i * 6 + 1] - '0') + 4 * (int)(x[i * 6 + 2] - '0') \
             +  2 * (int)(x[i * 6 + 3] - '0') + (int)(x[i * 6 + 4] - '0');
         arr.val = g_s[i][arr.row][arr.col];
@@ -50,7 +51,7 @@ static int     s_boxes(char *x, char **op)
     return (1);
 }
 
-static int encrypt_function(char *round_key, t_block *bk)
+static int encrypt_function(char *round_key, t_block *bk, int i)
 {
     char    *tmp;
     char    *op;
@@ -73,6 +74,12 @@ static int encrypt_function(char *round_key, t_block *bk)
     //XOR left and op
     bk->right = xor_function(op, bk->left);
     bk->left = tmp;
+    if (i == 15)
+    {
+        tmp = bk->left;
+        bk->left = bk->right;
+        bk->right = tmp; 
+    }
     return (1);
 }
 
@@ -84,16 +91,15 @@ char    *algo_des(char *pt, char *key)
     char    *round_key;
     char    *s;
 
-    if (!keygen(&key) || !(split(key, &(k.left), &(k.right), 28)) || !init_block(pt, &bk))
+    if (!keygen(&key) || !(split(key, &(k.left), &(k.right), 28)) || !init_block(hex_2_bin(pt), &bk))
         return (NULL);
     i = -1;
     while (++i < 16)
     { 
         round_key = round_key_function(&(k.left), &(k.right), g_shift_table[i]);
-        encrypt_function(round_key, &bk);
+        encrypt_function(round_key, &bk, i);
     }
     s = final_cipher(&bk);
-    ft_printf("DES = %s\n", s);
-    return (bin_2_decimal(s)); 
-    //return (NULL);
+    //return (bin_2_decimal(s));
+    return (s);
 }

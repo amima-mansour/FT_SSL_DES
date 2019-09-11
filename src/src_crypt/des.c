@@ -96,11 +96,12 @@ void		des(int argc, char **argv)
 	char		*mode;
 	t_des_flags	flags;
 	char		*pass;
+	char		*cipher;
 
 	check_mode(argv[0], &mode);
 	init_flags(&flags);
 	parse_flags(argv, argc, &flags);
-	if (!flags.passwd)
+	if (!flags.passwd && !flags.key)
 	{
 		pass = getpass("enter des-cbc encryption password:");
 		if (!(flags.passwd = ft_strdup(pass)))
@@ -115,5 +116,6 @@ void		des(int argc, char **argv)
 	}
 	ft_generate_iv_keys(&flags);
 	print_flags(&flags);
-	ft_printf("%s\n", algo_des(ft_strdup("AMINAMAN"), flags.key));
+	cipher = algo_des(ft_strdup("123456ABCD132536"), flags.key);
+	ft_printf("%s\n", bin2hex(cipher));
 }

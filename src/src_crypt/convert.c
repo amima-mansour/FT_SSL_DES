@@ -1,6 +1,6 @@
 #include "ft_ssl_crypt.h"
 
-static char * g_mp[16] =
+static char *g_mp[16] =
 {
     "0000", "0001", "0010", "0011", 
     "0100", "0101", "0110", "0111", 
@@ -156,19 +156,102 @@ char *bin_2_decimal(char *s)
         nbr = nbr << 1;
         if (s[i] == '1')
         {
-            ft_printf("NBBBBB Avant = %d\n", nbr);
+            //ft_printf("NBBBBB Avant = %d\n", nbr);
             nbr |= 1;
-            ft_printf("NBBBBB Apres = %d\n", nbr);
+            //ft_printf("NBBBBB Apres = %d\n", nbr);
         }
         if (++j == 8)
         {
             j = 0;
             str[k] = nbr;
-            ft_printf("NBR = %d\n", nbr);
             nbr = 0;
             k++;
         }
     }
     str[k] = '\0';
     return (str);
+}
+
+static char    *convert_number(int n)
+{
+    char    *tmp;
+    int     i;
+
+    if (!(tmp = (char*)malloc(9)))
+        return (NULL);
+    i = -1;
+    while (++i < 8)
+    {
+        if ((n >> (7 - i))& 1)
+            tmp[i] = '1';
+        else
+            tmp[i] = '0';
+    }
+    return (tmp);
+}
+
+char    *decimal_2_bin(char *s)
+{
+    char    *str;
+    int     i;
+    char    *tmp;
+    int     j;
+
+    if (!(str = (char*)malloc(65)))
+        return (NULL);
+    i = -1;
+    j = 0;
+    while (++i < 8)
+    {
+        if (!(tmp = convert_number((int)s[i])))
+            return (NULL);
+        ft_memcpy(str + j, tmp, 8);
+        j += 8;
+        free(tmp);
+    }
+    str[64] = '\0';
+    return (str);
+}
+
+static int convert_to_hex(char *s)
+{
+    int nbr;
+    size_t i;
+
+    i = -1;
+    nbr = 0;
+    while (++i < 4)
+    {
+        nbr = nbr << 1;
+        if (s[i] == '1')
+            nbr |= 1;
+    }
+    return (nbr);
+}
+
+char *bin2hex(char *s)
+{ 
+    size_t i;
+    int nbr;
+    int j;
+    char  *hex;
+
+    hex  = malloc(ft_strlen(s) / 4 + 1);
+    i = 0;
+    j = 0;
+    while (i < ft_strlen(s))
+    { 
+        char ch[5]; 
+        ch[0] = s[i];
+        ch[1] = s[i+1]; 
+        ch[2] = s[i+2]; 
+        ch[3] = s[i + 3];
+        ch[4] = '\0';
+        nbr = convert_to_hex(ch);
+        hex[j]= (char)(BASE16[nbr]);
+        i += 4;
+        j += 1; 
+    }
+    hex[j] = '\0';
+    return(hex); 
 }

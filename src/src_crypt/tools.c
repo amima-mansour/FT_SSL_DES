@@ -58,7 +58,7 @@ char *shift_left(char *k, int shifts)
     }
     return (k); 
 } 
- 
+
 int split(char *str, char **left, char **right, int size)
 {
     if (!(*left = malloc(size + 1)))
@@ -68,11 +68,11 @@ int split(char *str, char **left, char **right, int size)
         free(*left);
         return (0);
     }
-    (*left)[size] = '\0';
-    (*right)[size] = '\0';
     //Splitting
     ft_memcpy(*left, str, size);
     ft_memcpy(*right, str + size, size);
+    (*left)[size] = '\0';
+    (*right)[size] = '\0';
     free(str);
     return (1);
 }

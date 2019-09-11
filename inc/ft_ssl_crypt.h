@@ -50,6 +50,8 @@ int     				hex_expr(char *hex);
 char 					*convert_2_hex(char *str);
 char					*hex_2_bin(char *s);
 char					*bin_2_decimal(char *s);
+char					*decimal_2_bin(char *s);
+char 					*bin2hex(char *s);
 char					*algo_des(char *pt, char *key);
 /*
 **	tools function
