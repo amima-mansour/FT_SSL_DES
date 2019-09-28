@@ -33,7 +33,7 @@ char *permute(char *key, int* arr, int n)
     per[n] = '\0';
     while(++i < n)
         per[i] = key[arr[i] - 1];
-    free(key);
+    //free(key);
     return per; 
 }
 
@@ -65,7 +65,7 @@ int split(char *str, char **left, char **right, int size)
         return (0);
     if (!(*right = malloc(size + 1)))
     {
-        free(*left);
+        //free(*left);
         return (0);
     }
     //Splitting
@@ -73,6 +73,16 @@ int split(char *str, char **left, char **right, int size)
     ft_memcpy(*right, str + size, size);
     (*left)[size] = '\0';
     (*right)[size] = '\0';
-    free(str);
+    //free(str);
     return (1);
+}
+
+void    print_result(char *text, int fd)
+{
+    int i;
+
+    i = -1;
+    while (++i < 8)
+        ft_putchar_fd(text[i], fd);
+    free(text);
 }

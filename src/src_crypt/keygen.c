@@ -3,13 +3,30 @@
 
 int keygen(char **key)
 {
-    char *binkey;
+    char    *binkey;
 
-    if (!(binkey = hex_2_bin(*key)))
+    if (!(binkey = hex2bin(*key)))
         return (0);
-    free(*key);
     *key = permute(binkey, g_keyp, 56);
     return (1);
+}
+
+char    *short_key(char *key)
+{
+    int     len;
+    char    *new;
+
+    len = ft_strlen(key);
+    if (len >= 16)
+        return (key);
+    if (!(new = malloc(17)))
+        return (NULL);
+    new[16] = '\0';
+    ft_strcpy(new, key);
+    free(key);
+    while (len < 16)
+        new[len++] = '0';
+    return (new);
 }
 
 char *round_key_function(char **leftkey, char **rightkey, int shift)

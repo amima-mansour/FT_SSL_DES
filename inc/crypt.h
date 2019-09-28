@@ -141,22 +141,3 @@ static int g_final_perm[64] =
     34, 2, 42, 10, 50, 18, 58, 26,
     33, 1, 41, 9, 49, 17, 57, 25
 };
-
-typedef struct			s_key
-{
-	char				*right;
-	char				*left;
-}						t_key;
-
-typedef struct			s_block
-{
-	char				*right;
-	char				*left;
-}						t_block;
-
-typedef struct			s_array
-{
-	int 				row;
-	int 				col;
-    int                 val;
-}						t_array;

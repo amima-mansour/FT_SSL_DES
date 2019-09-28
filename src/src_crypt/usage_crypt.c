@@ -14,9 +14,9 @@ void	usage_des(void)
 {
 	ft_putstr_fd("Usage: des [OPTION] -k=KEY FILE\n"
 	"Encrypt or Descrypt with DES.\n\n"
-	" -k, --key=KEY     required 64bits key\n"
-    " -d, --decrypt     decrypt DES from input file\n"
-    " -e, --encrypt     encrypt DES from input file\n"
-	" -o, --output=FILE write result to FILE\n", 2);
+	" -k,      required 64bits key\n"
+    " -d,      decrypt DES from input file\n"
+    " -e,      encrypt DES from input file\n"
+	" -o,	   write result to FILE\n", 2);
 	exit(-1);
 }

@@ -12,7 +12,7 @@
 
 #include "ft_ssl_hash.h"
 
-void	cmd_error(t_hash_functions *hash[], char *cmd)
+void	cmd_error(t_hash_functions hash[], char *cmd)
 {
 	int i;
 
@@ -24,7 +24,7 @@ void	cmd_error(t_hash_functions *hash[], char *cmd)
 	i = -1;
 	while (++i < NB_FUNCTIONS)
 	{
-		ft_putstr_fd((*hash)[i].name, 2);
+		ft_putstr_fd(hash[i].name, 2);
 		ft_putchar_fd('\n', 2);
 	}
 	ft_putstr_fd("\nCipher commands:\n", 2);

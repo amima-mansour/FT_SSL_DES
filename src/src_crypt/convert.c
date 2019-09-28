@@ -8,7 +8,7 @@ static char *g_mp[16] =
     "1100", "1101", "1110", "1111"
 };
 
-char *convert_2_hex(char *str)
+char *dec2hex(char *str)
 {
     int     i;
     int     j;
@@ -51,49 +51,12 @@ char *convert_2_char(char *str, int size)
     while (++i <= size * 2)
     {
         nbr = convert_a_hex(str[i]);
-        nbr = nbr * 16 + convert_a_hex(str[++i]); 
+        nbr = nbr * 16 + convert_a_hex(str[++i]);
         s[j] = nbr;
         j++;
     }
     s[size] = '\0';
     return (s);
-}
-
-t_u64 convert_2_decimal(char *str)
-{
-    int     i;
-    t_u64   nbr;
-
-    i = -1;
-    nbr = 0;
-    while (str[++i])
-    {
-        nbr = nbr >> 8;
-        nbr += str[i];
-    }
-    return (nbr);
-}
-
-char	*ft_strjoin_16(char const *s1, char const *s2)
-{
-	char	*str;
-	size_t 	i;
-    size_t	j;
-
-	if ((str = (char*)malloc(ft_strlen(s1) + 1 + 8)))
-	{
-		i = -1;
-		while (++i < ft_strlen(s1))
-			str[i] = s1[i];
-		j = -1;
-        while (++j < 8)
-		{
-			str[i] = s2[j];
-			++i;
-		}
-		str[i] = '\0';
-	}
-	return (str);
 }
 
 int     hex_expr(char *hex)
@@ -111,7 +74,7 @@ int     hex_expr(char *hex)
     return (1);
 }
 
-char *hex_2_bin(char *s)
+char *hex2bin(char *s)
 { 
     char    *str;
     size_t  i;
@@ -137,7 +100,7 @@ char *hex_2_bin(char *s)
     return (str); 
 }
 
-char *bin_2_decimal(char *s)
+char *bin2dec(char *s)
 {
     char    *str;
     int     j;
@@ -155,11 +118,7 @@ char *bin_2_decimal(char *s)
     {
         nbr = nbr << 1;
         if (s[i] == '1')
-        {
-            //ft_printf("NBBBBB Avant = %d\n", nbr);
             nbr |= 1;
-            //ft_printf("NBBBBB Apres = %d\n", nbr);
-        }
         if (++j == 8)
         {
             j = 0;
@@ -190,7 +149,7 @@ static char    *convert_number(int n)
     return (tmp);
 }
 
-char    *decimal_2_bin(char *s)
+char    *dec2bin(char *s)
 {
     char    *str;
     int     i;
@@ -213,7 +172,7 @@ char    *decimal_2_bin(char *s)
     return (str);
 }
 
-static int convert_to_hex(char *s)
+static int convert_2_hex(char *s)
 {
     int nbr;
     size_t i;
@@ -247,7 +206,7 @@ char *bin2hex(char *s)
         ch[2] = s[i+2]; 
         ch[3] = s[i + 3];
         ch[4] = '\0';
-        nbr = convert_to_hex(ch);
+        nbr = convert_2_hex(ch);
         hex[j]= (char)(BASE16[nbr]);
         i += 4;
         j += 1; 

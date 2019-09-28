@@ -34,9 +34,9 @@ static	void			treat_base_encode(char **out, char *in, t_u64 len)
 	j = 0;
 	while (i < len)
 	{
-		v = in[i];
-		v = i + 1 < len ? v << 8 | in[i + 1] : v << 8;
-		v = i + 2 < len ? v << 8 | in[i + 2] : v << 8;
+		v = (unsigned char)in[i];
+		v = i + 1 < len ? v << 8 | (unsigned char)in[i + 1] : v << 8;
+		v = i + 2 < len ? v << 8 | (unsigned char)in[i + 2] : v << 8;
 		(*out)[j] = BASE64[(v >> 18) & 63];
 		(*out)[j + 1] = BASE64[(v >> 12) & 63];
 		if (i + 1 < len)
@@ -52,19 +52,14 @@ static	void			treat_base_encode(char **out, char *in, t_u64 len)
 	}
 }
 
-void					base64_encode(char *in, t_u64 len, int fd)
+int					base64_encode(char *in, t_u64 len, char **out, t_u64 *outlen)
 {
-	char	*out;
-	t_u64	outlen;
-
 	if (in == NULL || len == 0)
-		return ;
-	outlen = encode_base64_size(len);
-	if (!(out = malloc(outlen + 1)))
-		return ;
-	out[outlen] = '\0';
-	treat_base_encode(&out, in, len);
-	write(fd, out, outlen);
-	ft_putchar_fd('\n', fd);
-	free(out);
+		return (0);
+	*outlen = encode_base64_size(len);
+	if (!(*out = malloc(*outlen + 1)))
+		return (0);
+	(*out)[*outlen] = '\0';
+	treat_base_encode(out, in, len);
+	return (1);
 }

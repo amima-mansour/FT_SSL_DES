@@ -2,7 +2,7 @@
 #include "crypt.h"
 
 
-static int init_block(char *pt, t_block *block)
+int         init_block(char *pt, t_block *block)
 {
     //Initial Permutation
     pt = permute(pt, g_initial_perm, 64);
@@ -10,7 +10,7 @@ static int init_block(char *pt, t_block *block)
     return (split(pt, &(block->left), &(block->right), 32));
 }
 
-static char *final_cipher(t_block *bk)
+char        *final_text(t_block *bk)
 {
     char *concat;
     char *cipher;
@@ -18,14 +18,14 @@ static char *final_cipher(t_block *bk)
     //Combination 
     concat = ft_strjoin(bk->left, bk->right);
     //clean
-    free(bk->right);
-    free(bk->left); 
+    //free(bk->right);
+    //free(bk->left); 
     //Final Permutation
     cipher = permute(concat, g_final_perm, 64);
     return (cipher);
 }
 
-static int     s_boxes(char *x, char **op)
+int             s_boxes(char *x, char **op)
 {
     int     i;
     int     j;
@@ -51,7 +51,7 @@ static int     s_boxes(char *x, char **op)
     return (1);
 }
 
-static int encrypt_function(char *round_key, t_block *bk, int i)
+int             crypt_function(char *round_key, t_block *bk, int i)
 {
     char    *tmp;
     char    *op;
@@ -68,7 +68,7 @@ static int encrypt_function(char *round_key, t_block *bk, int i)
     op[32] = '\0';
     if (!s_boxes(bk->right, &op))
         return (0);
-    free(bk->right);
+    //free(bk->right);
     //Straight D-box
     op = permute(op, g_per, 32);
     //XOR left and op
@@ -83,23 +83,43 @@ static int encrypt_function(char *round_key, t_block *bk, int i)
     return (1);
 }
 
-char    *algo_des(char *pt, char *key)
+static void     treat_block(char **text)
+{
+    char    *text_block;
+    int     len;
+
+    if (!(text_block = malloc(9)))
+        return ;
+    text_block[8] = '\0';
+    len = ft_strlen(*text);
+    if (len >= 8)
+    {
+        ft_strncpy(text_block, *text, 8);
+        *text = text_block;
+        return ;
+    }
+    ft_strcpy(text_block, *text);
+    while (len < 8)
+        text_block[len++] = 8 - ft_strlen(*text);
+    *text = text_block;
+}
+
+char            *encrypt_des(char *pt, char *key)
 {
     t_key   k;
     t_block bk;
     int     i;
     char    *round_key;
-    char    *s;
 
-    if (!keygen(&key) || !(split(key, &(k.left), &(k.right), 28)) || !init_block(hex_2_bin(pt), &bk))
+    treat_block(&pt);
+    if (!keygen(&key) || !(split(key, &(k.left), &(k.right), 28)) || !init_block(dec2bin(pt), &bk))
         return (NULL);
     i = -1;
     while (++i < 16)
     { 
         round_key = round_key_function(&(k.left), &(k.right), g_shift_table[i]);
-        encrypt_function(round_key, &bk, i);
+        if (!crypt_function(round_key, &bk, i))
+            return (NULL);
     }
-    s = final_cipher(&bk);
-    //return (bin_2_decimal(s));
-    return (s);
+    return (final_text(&bk));
 }

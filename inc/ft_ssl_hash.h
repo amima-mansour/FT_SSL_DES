@@ -105,7 +105,7 @@ int						flags_check(char **argv, int argc, t_flags *fl, int s);
 void					cmd_hash(int ac, char **av, char *s);
 t_u64					file_check(char *arg, char *cmd, char **s);
 
-void					cmd_error(t_hash_functions *hash[], char *cmd);
+void					cmd_error(t_hash_functions hash[], char *cmd);
 void					s_error(char *cmd);
 
 void					hash_sha_256(t_sha256_context *c, uint8_t **m,

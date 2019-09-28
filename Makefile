@@ -45,7 +45,8 @@ SRC_CRYPT = $(addprefix src_crypt/, \
 							salt.c\
 							convert.c\
 							tools.c\
-							algo_des.c\
+							encrypt_des.c\
+							decrypt_des.c\
 							keygen.c\
 							usage_crypt.c)
 
@@ -70,7 +71,7 @@ O_DIR = $(C_DIR:$(PATH_SRC)/%=$(PATH_OBJ)/%)
 O_FILES = $(C_FILES:$(PATH_SRC)/%.c=$(PATH_OBJ)/%.o)
 PATH_OBJ	= obj
 NAME		= ft_ssl
-CFLAGS		= -Wall -Wextra -Werror  -ggdb
+CFLAGS		= -Wall -Wextra -Werror  -ggdb -g
 LIBRARY     = libft/libft.a
 ################################################################################
 # RULES																		   #

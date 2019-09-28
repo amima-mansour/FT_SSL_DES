@@ -75,30 +75,27 @@ static int		treat_base_decode(char *str, char *enc)
 	return (base_convert(c, enc, str));
 }
 
-void			base64_decode(char *in, t_u64 len, int fd)
+int			base64_decode(char *in, t_u64 len, char **out, t_u64 *outlen)
 {
-	char	*out;
 	t_u64	i;
 	int		ret;
-	t_u64	outlen;
 
 	len = ft_trim(in);
-	outlen = (len / 4) * 3;
-	if (!(out = malloc(outlen)))
-		return ;
+	*outlen = (len / 4) * 3;
+	if (!(*out = malloc(*outlen)))
+		return (0);
 	i = 0;
-	while (i < outlen)
+	while (i < *outlen)
 	{
-		if ((ret = treat_base_decode(&(out[i]), in)) == -1)
+		if ((ret = treat_base_decode(&((*out)[i]), in)) == -1)
 		{
 			errors("Invalid character in input stream.");
-			free(out);
-			return ;
+			free(*out);
+			return (0);
 		}
 		i += 3;
 		in += 4;
 	}
 	outlen -= ret;
-	write(fd, out, outlen);
-	free(out);
+	return (1);
 }
