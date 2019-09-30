@@ -32,7 +32,6 @@ static void		read_args(t_b64_flags *f, int argc, char **argv)
 	i = 1;
 	while (++i < argc)
 	{
-		ft_putendl(argv[i]);
 		if ((!(ft_strcmp(argv[i], "-i")) || !(ft_strcmp(argv[i], "-o"))) && \
 				!argv[i + 1])
 			usage_base64();
@@ -47,6 +46,22 @@ static void		read_args(t_b64_flags *f, int argc, char **argv)
 	}
 }
 
+static int		check_valid_fd(t_b64_flags *flags)
+{
+	if (flags->in && (flags->fd_in = open(flags->in, O_RDONLY)) == -1)
+	{
+		file_error("base64", flags->in);
+		return (0);
+	}
+	if (flags->out && (flags->fd_out = \
+				open(flags->out, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1)
+	{
+		file_error("base64", flags->in);
+		return (0);
+	}
+	return (1);
+}
+
 void			base64(int argc, char **av)
 {
 	t_b64_flags	flags;
@@ -54,26 +69,18 @@ void			base64(int argc, char **av)
 	char		*msg;
 	char		*out;
 	t_u64		outlen;
-	int			ret;
 
 	read_args(&flags, argc, av);
-	if (flags.in && (flags.fd_in = open(flags.in, O_RDONLY)) == -1)
-	{
-		file_error("base64", flags.in);
+	if (!(check_valid_fd(&flags)))
 		return ;
-	}
-	if (flags.out && (flags.fd_out = \
-				open(flags.out, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1)
-	{
-		file_error("base64", flags.in);
-		return ;
-	}
 	l = read_function(flags.fd_in, &msg);
-	ret = flags.decrypt ? base64_decode(msg, l, &out, &outlen) : \
-		base64_encode(msg, l, &out, &outlen);
-	if (!ret)
+	if ((flags.decrypt && !base64_decode(msg, l, &out, &outlen)) || \
+		(!flags.decrypt && !base64_encode(msg, l, &out, &outlen)))
+	{
+		free(msg);
 		return ;
+	}
+	free(msg);
 	write(flags.fd_out, out, outlen);
 	free(out);
-	free(msg);
 }

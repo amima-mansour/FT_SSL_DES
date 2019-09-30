@@ -133,6 +133,7 @@ void		des(int argc, char **argv)
 		return ;
 	}
 	len = read_function(flags.fd_in, &str);
+	len = (!flags.decrypt && len % 8 == 0) ? len + 8: len;
 	i = 0;
 	if (flags.decrypt && flags.a)
 	{
@@ -152,13 +153,12 @@ void		des(int argc, char **argv)
 		ft_putstr_fd(flags.tmp, flags.fd_out);
 		flags.tmp = NULL;
 	}
-	printf("Len str = %d\n", len);
 	while (i < len)
 	{
 		key = ft_strdup(flags.key);
 		if (!flags.decrypt)
 		{
-			if (!(cipher = encrypt_des(str + i, key))
+			if (!(cipher = encrypt_des(str + i, key)))
 			return ;
 			if (flags.a)
 				flags.tmp = ft_strjoin(flags.tmp, bin2dec(cipher));
@@ -167,7 +167,7 @@ void		des(int argc, char **argv)
 		}
 		else
 		{
-			if (!(cipher = decrypt_des(str + i, key))
+			if (!(cipher = decrypt_des(str + i, key)))
 				return ;
 			print_result(bin2dec(cipher), flags.fd_out);
 		}

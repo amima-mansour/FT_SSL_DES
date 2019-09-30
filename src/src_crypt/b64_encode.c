@@ -12,7 +12,7 @@
 
 #include "ft_ssl_crypt.h"
 
-static	t_u64			encode_base64_size(t_u64 inlen)
+static	t_u64	encode_base64_size(t_u64 inlen)
 {
 	t_u64	ret;
 
@@ -24,7 +24,7 @@ static	t_u64			encode_base64_size(t_u64 inlen)
 	return (ret);
 }
 
-static	void			treat_base_encode(char **out, char *in, t_u64 len)
+static	void	treat_base_encode(char **out, char *in, t_u64 len)
 {
 	t_u64	i;
 	t_u64	j;
@@ -52,7 +52,7 @@ static	void			treat_base_encode(char **out, char *in, t_u64 len)
 	}
 }
 
-int					base64_encode(char *in, t_u64 len, char **out, t_u64 *outlen)
+int				base64_encode(char *in, t_u64 len, char **out, t_u64 *outlen)
 {
 	if (in == NULL || len == 0)
 		return (0);

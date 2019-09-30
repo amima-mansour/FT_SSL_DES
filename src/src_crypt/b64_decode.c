@@ -75,7 +75,7 @@ static int		treat_base_decode(char *str, char *enc)
 	return (base_convert(c, enc, str));
 }
 
-int			base64_decode(char *in, t_u64 len, char **out, t_u64 *outlen)
+int				base64_decode(char *in, t_u64 len, char **out, t_u64 *outlen)
 {
 	t_u64	i;
 	int		ret;
