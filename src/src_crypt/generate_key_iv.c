@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 11:38:26 by amansour          #+#    #+#             */
-/*   Updated: 2019/09/30 12:00:22 by amansour         ###   ########.fr       */
+/*   Updated: 2019/09/30 14:24:13 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	check_salt(t_des_flags *f)
 		}
 		if (len < 16)
 		{
-			if (!(tmp = ft_strnew(17)))
+			if (!(tmp = ft_strnew(16)))
 				return (0);
 			ft_strcpy(tmp, f->salt);
 			while (len < 16)
@@ -86,8 +86,35 @@ static int	pbkdf2(t_des_flags *f)
 	return (1);
 }
 
+static int	get_passwd(t_des_flags *flags)
+{
+	char	*pass;
+
+	if (!flags->passwd && !flags->key)
+	{
+		pass = getpass("enter des-cbc encryption password:");
+		if (!(flags->passwd = ft_strdup(pass)))
+			return (0);
+		if (!(flags->decrypt))
+		{
+			pass = getpass("Verifying - enter des-cbc encryption password:");
+			if (ft_strcmp(pass, flags->passwd))
+			{
+				free(flags->passwd);
+				ft_putstr_fd("Verify failure\nbad password read\n", 2);
+				return (0);
+			}
+		}
+		if (!ft_strlen(flags->passwd))
+			return (0);
+	}
+	return (1);
+}
+
 int			ft_generate_iv_keys(t_des_flags *f, char **str, int *len)
 {
+	if (!get_passwd(f))
+		return (0);
 	if (f->key)
 		return (1);
 	if (f->decrypt)

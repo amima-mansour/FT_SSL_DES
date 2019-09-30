@@ -47,9 +47,11 @@ SRC_CRYPT = $(addprefix src_crypt/, \
 							convert_bin.c\
 							convert_dec.c\
 							tools.c\
+							tools_des.c\
 							encrypt_des.c\
 							decrypt_des.c\
 							key.c\
+							print.c\
 							usage_crypt.c)
 
 ################################################################################
