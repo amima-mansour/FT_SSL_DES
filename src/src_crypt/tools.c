@@ -12,7 +12,7 @@
 
 #include "ft_ssl_crypt.h"
 
-int			pretreate_des(t_des_flags *flags, char **str, int *len)
+int			pretreat_des(t_des_flags *flags, char **str, int *len)
 {
 	if (flags->in && (flags->fd_in = open(flags->in, O_RDONLY)) == -1)
 	{
@@ -30,7 +30,7 @@ int			pretreate_des(t_des_flags *flags, char **str, int *len)
 	return (1);
 }
 
-void		encrypt_base64(t_des_flags flags, char *str, int len)
+void		encrypt_base64(t_des_flags *flags, char *str, int len)
 {
 	char	*out;
 	t_u64	outlen;
@@ -41,13 +41,13 @@ void		encrypt_base64(t_des_flags flags, char *str, int len)
 	i = 0;
 	while (i < len)
 	{
-		key = ft_strdup(flags.key);
-		if (!(cipher = encrypt_des(str + i, key)))
+		key = ft_strdup(flags->key);
+		if (!(cipher = encrypt_des(str + i, key, flags)))
 			return ;
-		flags.tmp = ft_strjoin(flags.tmp, bin2dec(cipher));
+		flags->tmp = ft_strjoin(flags->tmp, bin2dec(cipher));
 		i += 8;
 	}
-	if (!(base64_encode(flags.tmp, ft_strlen(flags.tmp), &out, &outlen)))
+	if (!(base64_encode(flags->tmp, ft_strlen(flags->tmp), &out, &outlen)))
 		return ;
 	write(1, out, outlen);
 }
@@ -62,27 +62,29 @@ static void	print_result(char *text, int fd)
 	free(text);
 }
 
-void		crypt_des(t_des_flags flags, char *str, int len)
+void		crypt_des(t_des_flags *flags, char *str, int len)
 {
 	int		i;
 	char	*text;
 	char	*key;
 
+	printf("LEN = %d\n", len);
 	i = 0;
 	while (i < len)
 	{
-		key = ft_strdup(flags.key);
-		if (!flags.decrypt)
+		key = ft_strdup(flags->key);
+		if (!flags->decrypt)
 		{
-			if (!(text = encrypt_des(str + i, key)))
+			if (!(text = encrypt_des(str + i, key, flags)))
 				return ;
 		}
 		else
 		{
-			if (!(text = decrypt_des(str + i, key)))
+			if (!(text = decrypt_des(str + i, key, flags)))
 				return ;
 		}
-		print_result(bin2dec(text), flags.fd_out);
+		printf("cipher = %s\n", text);
+		print_result(bin2dec(text), flags->fd_out);
 		i += 8;
 	}
 }

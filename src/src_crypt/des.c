@@ -12,16 +12,6 @@
 
 #include "ft_ssl_crypt.h"
 
-static void	check_mode(char *str, t_des_flags *f)
-{
-	if (ft_strcmp(str, "des-ecb") == 0)
-		f->mode = "ecb";
-	if (ft_strcmp(str, "des-cbc") == 0)
-		f->mode = "cbc";
-	if (ft_strcmp(str, "des") == 0)
-		f->mode = "cbc";
-}
-
 static void	check_a_flag(char *value, char *flag, t_des_flags *f)
 {
 	if (!ft_strcmp(flag, "-o"))
@@ -90,19 +80,22 @@ void		des(int argc, char **argv)
 	char		*str;
 	int			l;
 
-	check_mode(argv[0], &flags);
+	flags.mode = argv[1];
 	init_flags(&flags);
 	parse_flags(argv, argc, &flags);
-	if (!pretreate_des(&flags, &str, &l) || !decrypt_base64(&str, l, &flags)\
+	if (!ft_strcmp(flags.mode, "des-ecb"))
+	{
+		free(flags.iv);
+		flags.iv = NULL;
+	}
+	if (!pretreat_des(&flags, &str, &l) || !decrypt_base64(&str, l, &flags)\
 			|| !ft_generate_iv_keys(&flags, &str, &l))
 		return ;
+	flags.iv = hex2bin(flags.iv);
 	if (!flags.decrypt && !flags.a)
-	{
 		ft_putstr_fd(flags.tmp, flags.fd_out);
-		flags.tmp = NULL;
-	}
 	if (!flags.decrypt && flags.a)
-		encrypt_base64(flags, str, l);
+		encrypt_base64(&flags, str, l);
 	else
-		crypt_des(flags, str, l);
+		crypt_des(&flags, str, l);
 }

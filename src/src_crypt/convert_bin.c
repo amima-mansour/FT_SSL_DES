@@ -27,6 +27,8 @@ char		*hex2bin(char *s)
 	int		j;
 	int		index;
 
+	if (!s)
+		return (s);
 	if (!(str = (char*)malloc(ft_strlen(s) * 4 + 1)))
 		return (NULL);
 	i = -1;

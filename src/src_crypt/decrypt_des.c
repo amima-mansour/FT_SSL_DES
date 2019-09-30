@@ -31,15 +31,16 @@ int			decrypt_base64(char **str, int len, t_des_flags *flags)
 	return (1);
 }
 
-char		*decrypt_des(char *ct, char *key)
+char		*decrypt_des(char *ct, char *key, t_des_flags *f)
 {
 	t_block	bk;
 	t_key	k;
 	int		i;
 	char	*keys[16];
+	char	*text;
 
 	if (!keygen(&key) || !(split(key, &(k.left), &(k.right), 28)) || \
-			!init_block(dec2bin(ct), &bk))
+			!init_block(dec2bin(ct), &bk, NULL))
 		return (NULL);
 	i = -1;
 	while (++i < 16)
@@ -48,5 +49,11 @@ char		*decrypt_des(char *ct, char *key)
 	while (++i < 16)
 		if (!crypt_function(keys[15 - i], &bk, i))
 			return (NULL);
-	return (final_text(&bk));
+	text = final_text(&bk);
+	if (f->iv)
+	{
+		text = xor_function(text, f->iv);
+		f->iv = dec2bin(ct);
+	}
+	return (text);
 }

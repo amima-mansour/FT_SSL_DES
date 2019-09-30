@@ -69,20 +69,21 @@ static int	pbkdf2(t_des_flags *f)
 	c = treat_md5(res, ft_strlen(f->passwd) + 8);
 	free(res);
 	res = str_msg_md5(c);
-	if (!(f->key = (char*)malloc(17)))
+	if (!(f->key = ft_strnew(16)))
 		return (0);
-	if (!(f->iv = (char*)malloc(17)))
+	ft_memcpy(f->key, res, 16);
+	if (!ft_strcmp(f->mode, "des-ecb") || f->iv)
+	{
+		free(res);
+		return (1);
+	}
+	if (!(f->iv = ft_strnew(16)))
 	{
 		free(f->key);
 		return (0);
 	}
-	ft_memcpy(f->key, res, 16);
 	ft_memcpy(f->iv, res + 16, 16);
-	f->key[16] = '\0';
-	f->iv[16] = '\0';
 	free(res);
-	if (!f->key || !f->iv)
-		return (0);
 	return (1);
 }
 
@@ -92,12 +93,12 @@ static int	get_passwd(t_des_flags *flags)
 
 	if (!flags->passwd && !flags->key)
 	{
-		pass = getpass("enter des-cbc encryption password:");
+		pass = getpass("enter des encryption password:");
 		if (!(flags->passwd = ft_strdup(pass)))
 			return (0);
 		if (!(flags->decrypt))
 		{
-			pass = getpass("Verifying - enter des-cbc encryption password:");
+			pass = getpass("Verifying - enter des encryption password:");
 			if (ft_strcmp(pass, flags->passwd))
 			{
 				free(flags->passwd);
@@ -111,25 +112,22 @@ static int	get_passwd(t_des_flags *flags)
 	return (1);
 }
 
-int			ft_generate_iv_keys(t_des_flags *f, char **str, int *len)
+int			ft_generate_iv_keys(t_des_flags *f, char **s, int *len)
 {
+	if ((f->key && ft_strcmp(f->mode, "des-cbc")) || (f->key && f->iv))
+		return (1);
+	if (f->key && !f->iv)
+		errors("iv undefined");
 	if (!get_passwd(f))
 		return (0);
-	if (f->key)
-		return (1);
 	if (f->decrypt)
 	{
-		if (ft_strncmp(*str, "Salted__", 8) || ft_strlen(*str + 8) < 8)
-		{
-			ft_putstr_fd("ERROR CIPHER\n", 2);
-			return (0);
-		}
-		if (!(f->salt = malloc(9)))
-			return (0);
-		f->salt[8] = '\0';
-		ft_strncpy(f->salt, *str + 8, 8);
-		*str += 16;
-		*len = ft_strlen(*str);
+		if (ft_strncmp(*s, "Salted__", 8) || ft_strlen(*s + 8) < 8 || \
+			!(f->salt = ft_strnew(8)))
+			errors("ERROR CIPHER");
+		ft_strncpy(f->salt, *s + 8, 8);
+		*s += 16;
+		*len = ft_strlen(*s);
 	}
 	if (!f->decrypt && !check_salt(f))
 		return (0);

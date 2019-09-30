@@ -51,7 +51,6 @@ SRC_CRYPT = $(addprefix src_crypt/, \
 							encrypt_des.c\
 							decrypt_des.c\
 							key.c\
-							print.c\
 							usage_crypt.c)
 
 ################################################################################

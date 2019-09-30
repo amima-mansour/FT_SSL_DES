@@ -73,16 +73,16 @@ char					*hex2bin(char *s);
 char					*bin2dec(char *s);
 char					*dec2bin(char *s);
 char 					*bin2hex(char *s);
-char					*encrypt_des(char *pt, char *key);
-char					*decrypt_des(char *ct, char *key);
+char					*encrypt_des(char *pt, char *key, t_des_flags *f);
+char					*decrypt_des(char *ct, char *key, t_des_flags *f);
 int						decrypt_base64(char **str, int len, t_des_flags *flags);
 int     				crypt_function(char *round_key, t_block *bk, int i);
-int         			init_block(char *pt, t_block *block);
+int         			init_block(char *pt, t_block *block, char *iv);
 char        			*final_text(t_block *bk);
 int             		s_boxes(char *x, char **op);
-int    					pretreate_des(t_des_flags *flags, char **str, int *len);
-void					encrypt_base64(t_des_flags flags, char *str, int len);
-void					crypt_des(t_des_flags flags, char *str, int len);
+int    					pretreat_des(t_des_flags *flags, char **str, int *len);
+void					encrypt_base64(t_des_flags *flags, char *str, int len);
+void					crypt_des(t_des_flags *flags, char *str, int len);
 /*
 **	tools function
 */

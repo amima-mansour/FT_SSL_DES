@@ -13,8 +13,10 @@
 #include "ft_ssl_crypt.h"
 #include "crypt.h"
 
-int				init_block(char *pt, t_block *block)
+int				init_block(char *pt, t_block *block, char *iv)
 {
+	if (iv)
+		pt = xor_function(pt, iv);
 	pt = permute(pt, g_initial_perm, 64);
 	return (split(pt, &(block->left), &(block->right), 32));
 }
@@ -75,16 +77,17 @@ static void		treat_block(char **text)
 	*text = text_block;
 }
 
-char			*encrypt_des(char *pt, char *key)
+char			*encrypt_des(char *pt, char *key, t_des_flags *f)
 {
 	t_key	k;
 	t_block	bk;
 	int		i;
 	char	*round_key;
+	char	*cipher;
 
 	treat_block(&pt);
 	if (!keygen(&key) || !(split(key, &(k.left), &(k.right), 28)) \
-			|| !init_block(dec2bin(pt), &bk))
+			|| !init_block(dec2bin(pt), &bk, f->iv))
 		return (NULL);
 	i = -1;
 	while (++i < 16)
@@ -93,5 +96,8 @@ char			*encrypt_des(char *pt, char *key)
 		if (!crypt_function(round_key, &bk, i))
 			return (NULL);
 	}
-	return (final_text(&bk));
+	cipher = final_text(&bk);
+	if (f->iv)
+		f->iv = cipher;
+	return (cipher);
 }
