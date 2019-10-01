@@ -17,6 +17,8 @@ int		hex_expr(char *hex)
 	int i;
 
 	i = -1;
+	if (!hex)
+		return (1);
 	while (hex[++i])
 	{
 		if (!((hex[i] >= '0' && hex[i] <= '9') \

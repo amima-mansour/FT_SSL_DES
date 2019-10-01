@@ -91,6 +91,8 @@ void		des(int argc, char **argv)
 	if (!pretreat_des(&flags, &str, &l) || !decrypt_base64(&str, l, &flags)\
 			|| !ft_generate_iv_keys(&flags, &str, &l))
 		return ;
+	if (!hex_expr(flags.iv) || !hex_expr(flags.key))
+		errors("invalid hex value");
 	flags.iv = hex2bin(flags.iv);
 	if (!flags.decrypt && !flags.a)
 		ft_putstr_fd(flags.tmp, flags.fd_out);
