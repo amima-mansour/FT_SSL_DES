@@ -101,5 +101,6 @@ char			*encrypt_des(char *pt, char *key, t_des_flags *f)
 	cipher = final_text(&bk, k);
 	if (f->iv)
 		f->iv = ft_strdup(cipher);
+	free(pt);
 	return (cipher);
 }

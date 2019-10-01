@@ -82,5 +82,7 @@ void			base64(int argc, char **av)
 	}
 	free(msg);
 	write(flags.fd_out, out, outlen);
+	if (!flags.decrypt)
+		ft_putchar_fd('\n', flags.fd_out);
 	free(out);
 }

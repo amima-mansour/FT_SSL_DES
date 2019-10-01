@@ -81,6 +81,8 @@ static void	clean(t_des_flags *f, char *str)
 	free(f->key);
 	if (f->iv)
 		free(f->iv);
+	if (f->salt)
+		free(f->salt);
 	free(str);
 }
 

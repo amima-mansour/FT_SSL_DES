@@ -65,8 +65,7 @@ char		*bin2dec(char *s)
 	while (s[++i])
 	{
 		nbr = nbr << 1;
-		if (s[i] == '1')
-			nbr |= 1;
+		nbr |= (s[i] == '1') ? 1 : 0;
 		if (++j == 8)
 		{
 			j = 0;
@@ -115,6 +114,6 @@ char		*dec2bin(char *s)
 		j += 8;
 		free(tmp);
 	}
-	free(s);
+	//free(s);
 	return (str);
 }
