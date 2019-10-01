@@ -28,7 +28,7 @@ char		*hex2dec(char *str, int size)
 	char	*s;
 	int		nbr;
 
-	if (!(s = (char*)malloc(size + 1)))
+	if (!(s = ft_strnew(size)))
 		return (NULL);
 	i = -1;
 	j = 0;
@@ -39,6 +39,6 @@ char		*hex2dec(char *str, int size)
 		s[j] = nbr;
 		j++;
 	}
-	s[size] = '\0';
+	free(str);
 	return (s);
 }

@@ -78,7 +78,7 @@ char					*decrypt_des(char *ct, char *key, t_des_flags *f);
 int						decrypt_base64(char **str, int len, t_des_flags *flags);
 int     				crypt_function(char *round_key, t_block *bk, int i);
 int         			init_block(char *pt, t_block *block, char *iv);
-char        			*final_text(t_block *bk);
+char        			*final_text(t_block *bk, t_key k);
 int             		s_boxes(char *x, char **op);
 int    					pretreat_des(t_des_flags *flags, char **str, int *len);
 void					encrypt_base64(t_des_flags *flags, char *str, int len);

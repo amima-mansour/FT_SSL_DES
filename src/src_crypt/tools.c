@@ -82,7 +82,8 @@ void		crypt_des(t_des_flags *flags, char *str, int len)
 			if (!(text = decrypt_des(str + i, key, flags)))
 				return ;
 		}
-		print_result(bin2dec(text), flags->fd_out);
+		text = bin2dec(text);
+		print_result(text, flags->fd_out);
 		i += 8;
 	}
 }

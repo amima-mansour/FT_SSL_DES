@@ -29,7 +29,7 @@ char		*hex2bin(char *s)
 
 	if (!s)
 		return (s);
-	if (!(str = (char*)malloc(ft_strlen(s) * 4 + 1)))
+	if (!(str = ft_strnew(ft_strlen(s) * 4)))
 		return (NULL);
 	i = -1;
 	j = 0;
@@ -44,7 +44,7 @@ char		*hex2bin(char *s)
 		ft_memcpy(str + j, g_mp[index], 4);
 		j += 4;
 	}
-	str[ft_strlen(s) * 4] = '\0';
+	free(s);
 	return (str);
 }
 
@@ -54,16 +54,18 @@ char		*bin2dec(char *s)
 	int		j;
 	int		nbr;
 	int		k;
+	int		i;
 
-	if (!(str = (char*)malloc(ft_strlen(s) / 8 + 1)))
+	if (!(str = ft_strnew(ft_strlen(s) / 8)))
 		return (NULL);
 	j = 0;
 	nbr = 0;
 	k = 0;
-	while (*s)
+	i = -1;
+	while (s[++i])
 	{
 		nbr = nbr << 1;
-		if (*s == '1')
+		if (s[i] == '1')
 			nbr |= 1;
 		if (++j == 8)
 		{
@@ -71,9 +73,8 @@ char		*bin2dec(char *s)
 			str[k++] = nbr;
 			nbr = 0;
 		}
-		++s;
 	}
-	str[k] = '\0';
+	free(s);
 	return (str);
 }
 
@@ -82,7 +83,7 @@ static char	*convert_number(int n)
 	char	*tmp;
 	int		i;
 
-	if (!(tmp = (char*)malloc(9)))
+	if (!(tmp = ft_strnew(8)))
 		return (NULL);
 	i = -1;
 	while (++i < 8)
@@ -102,7 +103,7 @@ char		*dec2bin(char *s)
 	char	*tmp;
 	int		j;
 
-	if (!(str = (char*)malloc(65)))
+	if (!(str = ft_strnew(64)))
 		return (NULL);
 	i = -1;
 	j = 0;
@@ -114,6 +115,6 @@ char		*dec2bin(char *s)
 		j += 8;
 		free(tmp);
 	}
-	str[64] = '\0';
+	free(s);
 	return (str);
 }

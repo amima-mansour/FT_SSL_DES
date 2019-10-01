@@ -18,7 +18,7 @@ char	*xor_function(char *a, char *b)
 	size_t	i;
 	char	*ans;
 
-	if (!(ans = malloc(ft_strlen(a) + 1)))
+	if (!(ans = ft_strnew(ft_strlen(a))))
 		return (NULL);
 	i = -1;
 	while (++i < ft_strlen(a))
@@ -28,7 +28,6 @@ char	*xor_function(char *a, char *b)
 		else
 			ans[i] = '1';
 	}
-	ans[i] = '\0';
 	free(a);
 	free(b);
 	return (ans);
@@ -39,12 +38,12 @@ char	*permute(char *key, int *arr, int n)
 	char	*per;
 	int		i;
 
-	if (!(per = (char*)malloc(n + 1)))
+	if (!(per = ft_strnew(n)))
 		return (NULL);
 	i = -1;
-	per[n] = '\0';
 	while (++i < n)
 		per[i] = key[arr[i] - 1];
+	free(key);
 	return (per);
 }
 
@@ -57,10 +56,9 @@ char	*shift_left(char *k, int shifts)
 	i = -1;
 	while (++i < shifts)
 	{
-		if (!(s = (char *)malloc(29)))
+		if (!(s = ft_strnew(28)))
 			return (NULL);
 		j = 0;
-		s[28] = '\0';
 		while (++j < 28)
 			s[j - 1] = k[j];
 		s[j - 1] = k[0];
@@ -72,17 +70,15 @@ char	*shift_left(char *k, int shifts)
 
 int		split(char *str, char **left, char **right, int size)
 {
-	if (!(*left = malloc(size + 1)))
+	if (!(*left = ft_strnew(size)))
 		return (0);
-	if (!(*right = malloc(size + 1)))
+	if (!(*right = ft_strnew(size)))
 	{
 		free(*left);
 		return (0);
 	}
 	ft_memcpy(*left, str, size);
 	ft_memcpy(*right, str + size, size);
-	(*left)[size] = '\0';
-	(*right)[size] = '\0';
 	free(str);
 	return (1);
 }
@@ -110,5 +106,6 @@ int		s_boxes(char *x, char **op)
 		(*op)[j + 3] = arr.val + '0';
 		j += 4;
 	}
+	free(x);
 	return (1);
 }

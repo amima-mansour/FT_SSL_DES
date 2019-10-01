@@ -21,10 +21,12 @@ int				init_block(char *pt, t_block *block, char *iv)
 	return (split(pt, &(block->left), &(block->right), 32));
 }
 
-char			*final_text(t_block *bk)
+char			*final_text(t_block *bk, t_key k)
 {
 	char	*concat;
 
+	free(k.left);
+	free(k.right);
 	concat = ft_strjoin(bk->left, bk->right);
 	free(bk->right);
 	free(bk->left);
@@ -44,37 +46,36 @@ int				crypt_function(char *round_key, t_block *bk, int i)
 		return (0);
 	if (!s_boxes(bk->right, &op))
 		return (0);
-	free(bk->right);
 	op = permute(op, g_per, 32);
 	bk->right = xor_function(op, bk->left);
 	bk->left = tmp;
 	if (i == 15)
 	{
-		tmp = bk->left;
 		bk->left = bk->right;
 		bk->right = tmp;
 	}
 	return (1);
 }
 
-static void		treat_block(char **text)
+static int		treat_block(char **text)
 {
 	char	*text_block;
 	int		len;
 
 	if (!(text_block = ft_strnew(8)))
-		return ;
+		return (0);
 	len = ft_strlen(*text);
 	if (len >= 8)
 	{
 		ft_strncpy(text_block, *text, 8);
 		*text = text_block;
-		return ;
+		return (1);
 	}
 	ft_strcpy(text_block, *text);
 	while (len < 8)
 		text_block[len++] = 8 - ft_strlen(*text);
 	*text = text_block;
+	return (1);
 }
 
 char			*encrypt_des(char *pt, char *key, t_des_flags *f)
@@ -85,7 +86,8 @@ char			*encrypt_des(char *pt, char *key, t_des_flags *f)
 	char	*round_key;
 	char	*cipher;
 
-	treat_block(&pt);
+	if (!treat_block(&pt))
+		return (NULL);
 	if (!keygen(&key) || !(split(key, &(k.left), &(k.right), 28)) \
 			|| !init_block(dec2bin(pt), &bk, f->iv))
 		return (NULL);
@@ -96,8 +98,8 @@ char			*encrypt_des(char *pt, char *key, t_des_flags *f)
 		if (!crypt_function(round_key, &bk, i))
 			return (NULL);
 	}
-	cipher = final_text(&bk);
+	cipher = final_text(&bk, k);
 	if (f->iv)
-		f->iv = cipher;
+		f->iv = ft_strdup(cipher);
 	return (cipher);
 }

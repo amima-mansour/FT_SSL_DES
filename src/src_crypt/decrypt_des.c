@@ -49,7 +49,7 @@ char		*decrypt_des(char *ct, char *key, t_des_flags *f)
 	while (++i < 16)
 		if (!crypt_function(keys[15 - i], &bk, i))
 			return (NULL);
-	text = final_text(&bk);
+	text = final_text(&bk, k);
 	if (f->iv)
 	{
 		text = xor_function(text, f->iv);

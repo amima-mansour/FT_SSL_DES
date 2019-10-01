@@ -74,6 +74,16 @@ static void	parse_flags(char **av, int ac, t_des_flags *f)
 	}
 }
 
+static void	clean(t_des_flags *f, char *str)
+{
+	if (f->passwd)
+		free(f->passwd);
+	free(f->key);
+	if (f->iv)
+		free(f->iv);
+	free(str);
+}
+
 void		des(int argc, char **argv)
 {
 	t_des_flags	flags;
@@ -100,4 +110,5 @@ void		des(int argc, char **argv)
 		encrypt_base64(&flags, str, l);
 	else
 		crypt_des(&flags, str, l);
+	clean(&flags, str);
 }
