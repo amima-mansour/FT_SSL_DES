@@ -44,7 +44,7 @@ void		encrypt_base64(t_des_flags *flags, char *str, int len)
 		key = ft_strdup(flags->key);
 		if (!(cipher = encrypt_des(str + i, key, flags)))
 			return ;
-		out = bin2dec(cipher);
+		out = bin2dec(cipher);		
 		cipher = ft_strjoin(flags->tmp, out);
 		free(out);
 		free(flags->tmp);
@@ -53,17 +53,30 @@ void		encrypt_base64(t_des_flags *flags, char *str, int len)
 	}
 	if (!(base64_encode(flags->tmp, ft_strlen(flags->tmp), &out, &outlen)))
 		return ;
-	write(flags->fd_out, out, outlen);
+	i = 0;
+	print_base64(out, outlen, flags->fd_out);
 	free(out);
-	ft_putchar_fd('\n', flags->fd_out);
 }
 
-static void	print_result(char *text, int fd)
+static void	print_result(char *text, int fd, char decrypt)
 {
-	int i;
+	int 	i;
+	int 	len;
+	char	c;
 
+	len = 8;
+	if (decrypt && (c = text[7]) <= 8)
+	{
+		i = 7;
+		while (--i >= 0 && text[i] == c)
+			;
+		if (i == -1)
+			i = 0;
+		if ((7 - i) == c)
+			len = i + 1;
+	}
 	i = -1;
-	while (++i < 8)
+	while (++i < len)
 		ft_putchar_fd(text[i], fd);
 	free(text);
 }
@@ -73,11 +86,13 @@ void		crypt_des(t_des_flags *flags, char *str, int len)
 	int		i;
 	char	*text;
 	char	*key;
+	int		j;
 
 	i = 0;
 	while (i < len)
 	{
 		key = ft_strdup(flags->key);
+		j = -1;
 		if (!flags->decrypt)
 		{
 			if (!(text = encrypt_des(str + i, key, flags)))
@@ -89,7 +104,7 @@ void		crypt_des(t_des_flags *flags, char *str, int len)
 				return ;
 		}
 		text = bin2dec(text);
-		print_result(text, flags->fd_out);
+		print_result(text, flags->fd_out, flags->decrypt);
 		i += 8;
 	}
 }

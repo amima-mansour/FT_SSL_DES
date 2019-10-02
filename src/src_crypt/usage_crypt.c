@@ -29,7 +29,7 @@ void	usage_des(void)
 	" -k,      required 64bits key\n"
 	" -d,      decrypt DES from input file\n"
 	" -e,      encrypt DES from input file\n"
-	" -a,      decode/encode the input/output in base64"
+	" -a,      decode/encode the input/output in base64\n"
 	" -o,      write result to FILE\n", 2);
 	exit(-1);
 }

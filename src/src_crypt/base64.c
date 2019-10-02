@@ -62,6 +62,20 @@ static int		check_valid_fd(t_b64_flags *flags)
 	return (1);
 }
 
+void			print_base64(char *out, t_u64 outlen, int fd)
+{
+	int i;
+
+	i = 0;
+	while (i < (int)outlen)
+	{
+		ft_putchar_fd(out[i], fd);
+		if (++i % 64 == 0)
+			ft_putchar_fd('\n', fd);		
+	}
+	ft_putchar_fd('\n', fd);
+}
+
 void			base64(int argc, char **av)
 {
 	t_b64_flags	flags;
@@ -81,8 +95,9 @@ void			base64(int argc, char **av)
 		return ;
 	}
 	free(msg);
-	write(flags.fd_out, out, outlen);
 	if (!flags.decrypt)
-		ft_putchar_fd('\n', flags.fd_out);
+		print_base64(out, outlen, flags.fd_out);
+	else
+		write(flags.fd_out, out, outlen);
 	free(out);
 }

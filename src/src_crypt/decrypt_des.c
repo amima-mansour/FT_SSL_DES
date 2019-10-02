@@ -13,20 +13,21 @@
 #include "ft_ssl_crypt.h"
 #include "crypt.h"
 
-int			decrypt_base64(char **str, int len, t_des_flags *flags)
+int			decrypt_base64(char **str, int *len, t_des_flags *flags)
 {
 	char		*out;
 	t_u64		outlen;
 
 	if (flags->decrypt && flags->a)
 	{
-		if (!(base64_decode(*str, len, &out, &outlen)))
+		if (!(base64_decode(*str, *len, &out, &outlen)))
 			return (0);
 		free(*str);
 		if (!(*str = ft_strnew(outlen)))
 			return (0);
 		ft_strncpy(*str, out, outlen);
 		free(out);
+		*len = outlen;
 	}
 	return (1);
 }

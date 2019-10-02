@@ -77,6 +77,7 @@ int						base64_encode(char *in, t_u64 len, char **out,\
 int						base64_decode(char *in, t_u64 len, char **out,\
 						t_u64 *ol);
 void					usage_base64(void);
+void					print_base64(char *out, t_u64 outlen, int fd);
 void					des(int argc, char **argv);
 void					usage_des(void);
 int						ft_generate_iv_keys(t_des_flags *f, char **s, int *l);
@@ -88,7 +89,7 @@ char					*dec2bin(char *s);
 char					*bin2hex(char *s);
 char					*encrypt_des(char *pt, char *key, t_des_flags *f);
 char					*decrypt_des(char *ct, char *key, t_des_flags *f);
-int						decrypt_base64(char **str, int len, t_des_flags *flags);
+int						decrypt_base64(char **str, int *len, t_des_flags *flags);
 int						decrypt_salt(t_des_flags *f, char **s, int *len);
 int						crypt_function(char *round_key, t_block *bk, int i);
 int						init_block(char *pt, t_block *block, char *iv);

@@ -105,7 +105,7 @@ void		des(int argc, char **argv)
 		free(flags.iv);
 		flags.iv = NULL;
 	}
-	if (!pretreat_des(&flags, &str, &l) || !decrypt_base64(&str, l, &flags)\
+	if (!pretreat_des(&flags, &str, &l) || !decrypt_base64(&str, &l, &flags)\
 			|| !ft_generate_iv_keys(&flags, &str, &l))
 		return ;
 	if (!hex_expr(flags.iv) || !hex_expr(flags.key))
