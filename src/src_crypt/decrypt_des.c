@@ -44,10 +44,11 @@ int			decrypt_salt(t_des_flags *f, char **s, int *len)
 		ft_strncpy(f->salt, *s + 8, 8);
 	else
 		f->salt = hex2dec(f->salt, 8);
-	str = ft_strdup(*s + 16);
+	*len -= 16;
+	str = ft_strnew(*len);
+	str = ft_strncpy(str, *s + 16, *len);
 	free(*s);
 	*s = str;
-	*len = ft_strlen(*s);
 	return (1);
 }
 
