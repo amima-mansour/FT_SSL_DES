@@ -23,7 +23,7 @@ static void		read_process(char **buf, int i, char **str)
 	*buf = ft_strnew(BUF);
 }
 
-t_u64		read_function(int fd, char **str)
+t_u64			read_function(int fd, char **str)
 {
 	char	*buf;
 	char	ch;
