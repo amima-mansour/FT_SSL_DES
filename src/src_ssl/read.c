@@ -40,11 +40,10 @@ t_u64			read_function(int fd, char **str)
 		buf[i % BUF] = ch;
 		++i;
 	}
-	temp = NULL;
 	if (*str)
 		temp = ft_strjoin_s(*str, buf, i);
 	else
-		temp = ft_strdup(buf);
+		temp = ft_strndup(buf, (int)i);
 	buf ? free(buf) : 0;
 	*str ? free(*str) : 0;
 	*str = temp;

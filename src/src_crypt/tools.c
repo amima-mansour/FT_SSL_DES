@@ -44,14 +44,14 @@ void		encrypt_base64(t_des_flags *flags, char *str, int len)
 		key = ft_strdup(flags->key);
 		if (!(cipher = encrypt_des(str + i, key, flags)))
 			return ;
-		out = bin2dec(cipher);		
-		cipher = ft_strjoin(flags->tmp, out);
+		out = bin2dec(cipher);
+		cipher = ft_strnjoin(flags->tmp, out, i, 8);
 		free(out);
 		free(flags->tmp);
 		flags->tmp = cipher;
 		i += 8;
 	}
-	if (!(base64_encode(flags->tmp, ft_strlen(flags->tmp), &out, &outlen)))
+	if (!(base64_encode(flags->tmp, i, &out, &outlen)))
 		return ;
 	i = 0;
 	print_base64(out, outlen, flags->fd_out);

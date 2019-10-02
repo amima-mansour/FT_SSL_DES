@@ -26,8 +26,8 @@ SRC = $(addprefix $(PATH_SRC)/, \
 	ft_strcpy.c ft_strdel.c ft_strdup.c ft_strequ.c ft_striter.c ft_striteri.c \
 	ft_strjoin.c ft_strlcat.c ft_strlen.c ft_strmap.c ft_strmapi.c \
 	ft_strncat.c ft_strncmp.c ft_strncpy.c ft_strnequ.c ft_strnew.c \
-	ft_strnstr.c ft_strrchr.c ft_strsplit.c ft_strstr.c ft_strsub.c \
-	ft_strtrim.c ft_tolower.c ft_toupper.c ft_isspace.c ft_sqrt.c ft_abs.c\
+	ft_strnstr.c ft_strrchr.c ft_strsplit.c ft_strstr.c ft_strsub.c ft_strndup.c \
+	ft_strtrim.c ft_tolower.c ft_toupper.c ft_isspace.c ft_sqrt.c ft_abs.c ft_strnjoin.c\
 	ft_inverse.c ft_convert.c ft_realloc.c get_next_line.c\
 	ft_printf.c conversion.c test.c util.c nbr_to_string.c\
 	to_n.c to_p.c to_bigc.c to_bigs.c to_string.c display.c to_sign_decimal.c\
