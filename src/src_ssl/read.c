@@ -40,7 +40,7 @@ t_u64		read_function(int fd, char **str)
 		buf[i % BUF] = ch;
 		++i;
 	}
-	temp  = NULL;
+	temp = NULL;
 	if (*str)
 		temp = ft_strjoin_s(*str, buf, i);
 	else

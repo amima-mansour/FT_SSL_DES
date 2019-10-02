@@ -25,6 +25,7 @@ SRCS_HASH	= $(addprefix src_hash/, \
 							check.c\
 							error_hash.c\
 							cmd.c\
+							md5_functions.c\
 							md5.c\
 							sha256.c\
 							sha224.c\

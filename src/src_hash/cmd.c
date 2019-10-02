@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/02 13:30:58 by amansour          #+#    #+#             */
+/*   Updated: 2019/10/02 13:31:19 by amansour         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_ssl_hash.h"
 
-static void cmd_array(t_hash_functions hash[])
+static void	cmd_array(t_hash_functions hash[])
 {
 	hash[0].name = "md5";
 	hash[0].cmd = &md5;

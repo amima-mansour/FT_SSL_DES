@@ -28,7 +28,10 @@ static void	check_a_flag(char *value, char *flag, t_des_flags *f)
 	if (!ft_strcmp(flag, "-s"))
 		f->salt = ft_strdup(value);
 	if (!ft_strcmp(flag, "-v"))
+	{
 		f->iv = ft_strdup(value);
+		f->iv = short_key(f->iv);
+	}
 }
 
 static void	init_flags(t_des_flags *f)

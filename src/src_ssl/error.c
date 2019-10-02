@@ -21,7 +21,7 @@ void	file_error(char *cmd, char *file)
 	ft_putstr_fd(": No such file or directory\n", 2);
 }
 
-void 	errors(char *str)
+void	errors(char *str)
 {
 	ft_putstr_fd(str, 2);
 	ft_putchar_fd('\n', 2);
