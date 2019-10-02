@@ -120,15 +120,8 @@ int			ft_generate_iv_keys(t_des_flags *f, char **s, int *len)
 		errors("iv undefined");
 	if (!get_passwd(f))
 		return (0);
-	if (f->decrypt)
-	{
-		if (ft_strncmp(*s, "Salted__", 8) || ft_strlen(*s + 8) < 8 || \
-			!(f->salt = ft_strnew(8)))
-			errors("ERROR CIPHER");
-		ft_strncpy(f->salt, *s + 8, 8);
-		*s += 16;
-		*len = ft_strlen(*s);
-	}
+	if (f->decrypt && !decrypt_salt(f, s, len))
+		return (0);
 	if (!f->decrypt && !check_salt(f))
 		return (0);
 	if (!f->decrypt)

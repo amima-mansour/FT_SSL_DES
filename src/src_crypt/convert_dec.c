@@ -32,7 +32,7 @@ char		*hex2dec(char *str, int size)
 		return (NULL);
 	i = -1;
 	j = 0;
-	while (++i <= size * 2)
+	while (++i <= size * 2 - 1)
 	{
 		nbr = convert_a_hex(str[i]);
 		nbr = nbr * 16 + convert_a_hex(str[++i]);

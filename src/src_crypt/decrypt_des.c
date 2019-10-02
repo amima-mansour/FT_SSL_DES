@@ -31,6 +31,26 @@ int			decrypt_base64(char **str, int len, t_des_flags *flags)
 	return (1);
 }
 
+int			decrypt_salt(t_des_flags *f, char **s, int *len)
+{
+	char *str;
+
+	if (f->salt && !hex_expr(f->salt))
+		return (0);
+	if (!f->salt && (ft_strncmp(*s, "Salted__", 8) || \
+		ft_strlen(*s + 8) < 8 || !(f->salt = ft_strnew(8))))
+		errors("ERROR CIPHER");
+	if (!f->salt)
+		ft_strncpy(f->salt, *s + 8, 8);
+	else
+		f->salt = hex2dec(f->salt, 8);
+	str = ft_strdup(*s + 16);
+	free(*s);
+	*s = str;
+	*len = ft_strlen(*s);
+	return (1);
+}
+
 char		*decrypt_des(char *ct, char *key, t_des_flags *f)
 {
 	t_block	bk;

@@ -114,6 +114,5 @@ char		*dec2bin(char *s)
 		j += 8;
 		free(tmp);
 	}
-	//free(s);
 	return (str);
 }
