@@ -71,7 +71,7 @@ void			print_base64(char *out, t_u64 outlen, int fd)
 	{
 		ft_putchar_fd(out[i], fd);
 		if (++i % 64 == 0)
-			ft_putchar_fd('\n', fd);		
+			ft_putchar_fd('\n', fd);
 	}
 	ft_putchar_fd('\n', fd);
 }

@@ -82,7 +82,7 @@ int				base64_decode(char *in, t_u64 len, char **out, t_u64 *outlen)
 
 	len = ft_trim(in);
 	*outlen = (len / 4) * 3;
-	if (!(*out = malloc(*outlen)))
+	if (!(*out = ft_strnew(*outlen)))
 		return (0);
 	i = 0;
 	while (i < *outlen)
@@ -96,6 +96,6 @@ int				base64_decode(char *in, t_u64 len, char **out, t_u64 *outlen)
 		i += 3;
 		in += 4;
 	}
-	outlen -= ret;
+	*outlen -= ret;
 	return (1);
 }
